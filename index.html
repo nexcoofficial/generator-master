@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[ISI_META_TITLE] - [ISI_NAMA_BRAND]</title>
+    <meta name="description" content="[ISI_META_DESCRIPTION]">
+    <meta name="keywords" content="[ISI_KEYWORDS]">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="[ISI_META_TITLE] - [ISI_NAMA_BRAND]">
+    <meta property="og:description" content="[ISI_META_DESCRIPTION]">
+    <meta property="og:image" content="[ISI_LINK_GAMBAR_UTAMA]">
+    <meta property="og:url" content="[ISI_WEBSITE]">
+    <meta property="og:type" content="product">
+    
+    <!-- Schema.org Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": "[ISI_NAMA_PRODUK]",
+        "image": "[ISI_LINK_GAMBAR_UTAMA]",
+        "description": "[ISI_DESKRIPSI_DETAIL]",
+        "brand": {
+            "@type": "Brand",
+            "name": "[ISI_NAMA_BRAND]"
+        },
+        "offers": {
+            "@type": "Offer",
+            "url": "[ISI_WEBSITE]",
+            "priceCurrency": "IDR",
+            "price": "[ISI_HARGA_PROMO]",
+            "availability": "https://schema.org/InStock"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "[ISI_RATING]",
+            "reviewCount": "[ISI_JUMLAH_CUSTOMER]"
+        }
+    }
+    </script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: [ISI_WARNA_PRIMARY];
+            --secondary-color: [ISI_WARNA_SECONDARY];
+            --accent-color: [ISI_WARNA_ACCENT];
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --background-light: #f8f9fa;
+            --white: #ffffff;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .cta-header {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .cta-header:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: var(--white);
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="pattern" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23pattern)"/></svg>');
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-image {
+            max-width: 400px;
+            width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            animation: fadeInUp 1s ease 0.4s both;
+            margin: 2rem auto;
+        }
+
+        .price-hero {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .price-original {
+            font-size: 1.5rem;
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        .price-promo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--warning);
+        }
+
+        .discount-badge {
+            background: var(--danger);
+            color: var(--white);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--white);
+            color: var(--primary-color);
+            padding: 16px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow-lg);
+            animation: fadeInUp 1s ease 0.8s both;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Product Description */
+        .product-section {
+            padding: 80px 0;
+            background: var(--background-light);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--text-dark);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .product-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .product-info p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .features-list {
+            list-style: none;
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .features-list i {
+            color: var(--success);
+            font-size: 1.2rem;
+        }
+
+        /* Product Gallery */
+        .gallery {
+            padding: 80px 0;
+        }
+
+        .gallery-main {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .gallery-main img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .gallery-main img:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-thumbnails {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            opacity: 0.7;
+            transition: var(--transition);
+            border: 3px solid transparent;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            opacity: 1;
+            border-color: var(--primary-color);
+        }
+
+        /* Pricing Section */
+        .pricing {
+            background: var(--white);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .pricing-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            padding: 3rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .pricing-header {
+            margin-bottom: 2rem;
+        }
+
+        .pricing-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .pricing-prices {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .price-old {
+            font-size: 1.5rem;
+            text-decoration: line-through;
+            color: var(--text-light);
+        }
+
+        .price-new {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .savings {
+            background: var(--success);
+            color: var(--white);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .stock-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--background-light);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+        }
+
+        .stock-bar {
+            flex: 1;
+            height: 8px;
+            background: var(--text-light);
+            border-radius: 4px;
+            margin: 0 1rem;
+            overflow: hidden;
+        }
+
+        .stock-fill {
+            height: 100%;
+            background: var(--warning);
+            width: 65%;
+            border-radius: 4px;
+        }
+
+        /* Variant Selector */
+        .variant-selector {
+            background: var(--background-light);
+            padding: 80px 0;
+        }
+
+        .variant-group {
+            margin-bottom: 2rem;
+        }
+
+        .variant-label {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .color-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .color-option {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .color-option:hover,
+        .color-option.active {
+            border-color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .color-option::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--white);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .color-option.active::after {
+            opacity: 1;
+        }
+
+        .size-options {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .size-option {
+            padding: 12px 20px;
+            border: 2px solid var(--text-light);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .size-option:hover,
+        .size-option.active {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary-color);
+            background: var(--white);
+            color: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .qty-btn:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .qty-input {
+            width: 60px;
+            height: 40px;
+            text-align: center;
+            border: 2px solid var(--text-light);
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Social Proof */
+        .social-proof {
+            background: var(--white);
+            padding: 80px 0;
+        }
+
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial {
+            background: var(--background-light);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .testimonial:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .rating {
+            color: var(--warning);
+            margin-bottom: 1rem;
+        }
+
+        .social-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* Why Choose Us */
+        .why-choose {
+            background: var(--background-light);
+            padding: 80px 0;
+        }
+
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .benefit {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .benefit:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .benefit h4 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .benefit p {
+            color: var(--text-light);
+        }
+
+        /* FAQ */
+        .faq {
+            background: var(--white);
+            padding: 80px 0;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background: var(--background-light);
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .faq-question:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .faq-answer.active {
+            padding: 1.5rem;
+            max-height: 200px;
+        }
+
+        .faq-icon {
+            transition: var(--transition);
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Order Section */
+        .order {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: var(--white);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .order-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .order-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--white);
+            color: var(--primary-color);
+            padding: 16px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .order-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .order-btn.whatsapp {
+            background: #25D366;
+            color: var(--white);
+        }
+
+        .order-btn.whatsapp:hover {
+            background: #128C7E;
+        }
+
+        /* Contact */
+        .contact {
+            background: var(--background-light);
+            padding: 80px 0;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contact-item {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .contact-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .contact-item h4 {
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .contact-item a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .contact-item a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text-dark);
+            color: var(--white);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--white);
+                box-shadow: var(--shadow);
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .price-hero {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .order-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 100px 0 60px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .pricing-card {
+                padding: 2rem 1rem;
+            }
+
+            .color-options,
+            .size-options {
+                justify-content: flex-start;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .d-flex { display: flex; }
+        .align-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .gap-1 { gap: 0.5rem; }
+        .gap-2 { gap: 1rem; }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid var(--white);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Countdown Timer */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .countdown-item {
+            background: var(--white);
+            color: var(--primary-color);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            min-width: 80px;
+            box-shadow: var(--shadow);
+        }
+
+        .countdown-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="container">
+            <div class="nav">
+                <a href="#" class="logo">
+                    <img src="[ISI_LINK_LOGO]" alt="[ISI_NAMA_BRAND]" onerror="this.style.display='none'">
+                    [ISI_NAMA_BRAND]
+                </a>
+                
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#product" class="nav-link">Produk</a></li>
+                    <li><a href="#testimonial" class="nav-link">Testimoni</a></li>
+                    <li><a href="#contact" class="nav-link">Kontak</a></li>
+                </ul>
+                
+                <a href="#order" class="cta-header">Beli Sekarang</a>
+                
+                <button class="mobile-menu-toggle" id="mobileToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>[ISI_NAMA_PRODUK]</h1>
+                <p class="hero-subtitle">[ISI_DESKRIPSI_SINGKAT]</p>
+                
+                <img src="[ISI_LINK_GAMBAR_UTAMA]" alt="[ISI_NAMA_PRODUK]" class="hero-image" loading="lazy">
+                
+                <div class="price-hero">
+                    <span class="price-original">Rp [ISI_HARGA_NORMAL]</span>
+                    <span class="price-promo">Rp [ISI_HARGA_PROMO]</span>
+                    <span class="discount-badge">[ISI_PERSENTASE]% OFF</span>
+                </div>
+                
+                <!-- Countdown Timer (for flash sale) -->
+                <div class="countdown" id="countdown">
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="days">00</span>
+                        <span class="countdown-label">Hari</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="hours">00</span>
+                        <span class="countdown-label">Jam</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="minutes">00</span>
+                        <span class="countdown-label">Menit</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="seconds">00</span>
+                        <span class="countdown-label">Detik</span>
+                    </div>
+                </div>
+                
+                <a href="#order" class="hero-cta">
+                    <i class="fas fa-shopping-cart"></i>
+                    Beli Sekarang - Hemat Rp [ISI_HARGA_NORMAL - ISI_HARGA_PROMO]
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Description -->
+    <section class="product-section" id="product">
+        <div class="container">
+            <h2 class="section-title">Tentang Produk</h2>
+            <div class="product-grid">
+                <div class="product-info">
+                    <h3>Kenapa Harus [ISI_NAMA_PRODUK]?</h3>
+                    <p>[ISI_DESKRIPSI_DETAIL]</p>
+                    
+                    <ul class="features-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Kualitas Premium Terjamin</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Material Berkualitas Tinggi</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Nyaman Digunakan Sehari-hari</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Awet dan Tahan Lama</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>Garansi Kepuasan 100%</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="product-specs">
+                    <img src="[ISI_LINK_GAMBAR_2]" alt="Detail Produk" loading="lazy" style="width: 100%; border-radius: var(--border-radius); box-shadow: var(--shadow-lg);">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Gallery -->
+    <section class="gallery">
+        <div class="container">
+            <h2 class="section-title">Galeri Produk</h2>
+            
+            <div class="gallery-main">
+                <img src="[ISI_LINK_GAMBAR_UTAMA]" alt="[ISI_NAMA_PRODUK]" id="mainImage" loading="lazy">
+            </div>
+            
+            <div class="gallery-thumbnails">
+                <img src="[ISI_LINK_GAMBAR_UTAMA]" alt="Gambar 1" class="thumbnail active" onclick="changeMainImage(this)" loading="lazy">
+                <img src="[ISI_LINK_GAMBAR_2]" alt="Gambar 2" class="thumbnail" onclick="changeMainImage(this)" loading="lazy">
+                <img src="[ISI_LINK_GAMBAR_3]" alt="Gambar 3" class="thumbnail" onclick="changeMainImage(this)" loading="lazy">
+                <img src="[ISI_LINK_GAMBAR_4]" alt="Gambar 4" class="thumbnail" onclick="changeMainImage(this)" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing">
+        <div class="container">
+            <h2 class="section-title">Harga Spesial Hari Ini</h2>
+            
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="pricing-title">[ISI_NAMA_PRODUK]</h3>
+                    <div class="pricing-prices">
+                        <span class="price-old">Rp [ISI_HARGA_NORMAL]</span>
+                        <span class="price-new">Rp [ISI_HARGA_PROMO]</span>
+                    </div>
+                    <div class="savings">Hemat Rp [ISI_HARGA_NORMAL - ISI_HARGA_PROMO]!</div>
+                </div>
+                
+                <div class="stock-info">
+                    <span>Stok tersisa:</span>
+                    <div class="stock-bar">
+                        <div class="stock-fill"></div>
+                    </div>
+                    <span><strong>[ISI_JUMLAH_STOK] pcs</strong></span>
+                </div>
+                
+                <div class="rating text-center">
+                    <div style="color: var(--warning); font-size: 1.5rem; margin-bottom: 0.5rem;">
+                        ★★★★★
+                    </div>
+                    <p>Rating [ISI_RATING]/5 dari [ISI_JUMLAH_CUSTOMER]+ pembeli</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Variant Selector -->
+    <section class="variant-selector">
+        <div class="container">
+            <h2 class="section-title">Pilih Varian</h2>
+            
+            <!-- Color Selector (for Hijab) -->
+            <div class="variant-group text-center">
+                <label class="variant-label">Pilih Warna:</label>
+                <div class="color-options">
+                    <div class="color-option active" style="background: #000000" data-color="Black" onclick="selectColor(this)"></div>
+                    <div class="color-option" style="background: #FFFFFF; border: 2px solid #ddd" data-color="White" onclick="selectColor(this)"></div>
+                    <div class="color-option" style="background: #1a237e" data-color="Navy" onclick="selectColor(this)"></div>
+                    <div class="color-option" style="background: #e91e63" data-color="Pink" onclick="selectColor(this)"></div>
+                    <div class="color-option" style="background: #f5f5dc" data-color="Cream" onclick="selectColor(this)"></div>
+                    <div class="color-option" style="background: #8bc34a" data-color="Green" onclick="selectColor(this)"></div>
+                    <div class="color-option" style="background: #ff9800" data-color="Orange" onclick="selectColor(this)"></div>
+                    <div class="color-option" style="background: #9c27b0" data-color="Purple" onclick="selectColor(this)"></div>
+                </div>
+            </div>
+            
+            <!-- Size Selector (for Fashion) -->
+            <div class="variant-group text-center">
+                <label class="variant-label">Pilih Ukuran:</label>
+                <div class="size-options">
+                    <div class="size-option" onclick="selectSize(this)">S</div>
+                    <div class="size-option active" onclick="selectSize(this)">M</div>
+                    <div class="size-option" onclick="selectSize(this)">L</div>
+                    <div class="size-option" onclick="selectSize(this)">XL</div>
+                    <div class="size-option" onclick="selectSize(this)">XXL</div>
+                </div>
+            </div>
+            
+            <!-- Quantity Selector -->
+            <div class="quantity-selector">
+                <span class="variant-label">Jumlah:</span>
+                <button class="qty-btn" onclick="decreaseQty()">-</button>
+                <input type="number" class="qty-input" id="quantity" value="1" min="1" max="[ISI_JUMLAH_STOK]">
+                <button class="qty-btn" onclick="increaseQty()">+</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="social-proof" id="testimonial">
+        <div class="container">
+            <h2 class="section-title">Apa Kata Mereka?</h2>
+            
+            <div class="social-stats">
+                <div class="stat">
+                    <div class="stat-number">[ISI_JUMLAH_CUSTOMER]+</div>
+                    <div class="stat-label">Customer Puas</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">[ISI_RATING]</div>
+                    <div class="stat-label">Rating Bintang</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">99%</div>
+                    <div class="stat-label">Tingkat Kepuasan</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Customer Service</div>
+                </div>
+            </div>
+            
+            <div class="testimonials">
+                <div class="testimonial">
+                    <div class="rating">★★★★★</div>
+                    <p class="testimonial-text">"[ISI_TESTIMONI_1]"</p>
+                    <p class="testimonial-author">- [NAMA_CUSTOMER_1]</p>
+                </div>
+                <div class="testimonial">
+                    <div class="rating">★★★★★</div>
+                    <p class="testimonial-text">"[ISI_TESTIMONI_2]"</p>
+                    <p class="testimonial-author">- [NAMA_CUSTOMER_2]</p>
+                </div>
+                <div class="testimonial">
+                    <div class="rating">★★★★★</div>
+                    <p class="testimonial-text">"[ISI_TESTIMONI_3]"</p>
+                    <p class="testimonial-author">- [NAMA_CUSTOMER_3]</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="why-choose">
+        <div class="container">
+            <h2 class="section-title">Mengapa Memilih [ISI_NAMA_BRAND]?</h2>
+            
+            <div class="benefits">
+                <div class="benefit">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Garansi Kualitas</h4>
+                    <p>Produk berkualitas tinggi dengan garansi penuh. Jika tidak puas, uang kembali 100%.</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h4>Pengiriman Cepat</h4>
+                    <p>Gratis ongkir ke seluruh Indonesia. Barang dikirim dalam 1-2 hari kerja.</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h4>Customer Service 24/7</h4>
+                    <p>Tim customer service kami siap membantu Anda kapan saja via WhatsApp.</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <h4>Trusted Brand</h4>
+                    <p>Dipercaya oleh ribuan customer di seluruh Indonesia dengan rating 5 bintang.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title">Pertanyaan yang Sering Diajukan</h2>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Bagaimana cara pemesanan?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Anda bisa pesan langsung melalui tombol "Beli Sekarang" atau hubungi WhatsApp kami. Pilih varian yang diinginkan, lalu isi form pemesanan.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Apa saja metode pembayaran yang tersedia?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>[Payment Methods]: Transfer Bank BCA/Mandiri/BRI, E-wallet (OVO, GoPay, DANA), dan COD untuk area tertentu.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Berapa lama proses pengiriman?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Pengiriman dalam kota 1-2 hari, luar kota 2-4 hari kerja. Kami menggunakan jasa pengiriman terpercaya seperti JNE, J&T, dan SiCepat.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Apakah ada garansi produk?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Ya, kami memberikan garansi kualitas. Jika produk tidak sesuai atau rusak, bisa retur dalam 7 hari dengan syarat dan ketentuan berlaku.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Apakah bisa tukar ukuran/warna?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Bisa, selama barang masih dalam kondisi baru dan belum digunakan. Biaya kirim tukar ditanggung pembeli.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Section -->
+    <section class="order" id="order">
+        <div class="container">
+            <h2 class="section-title" style="color: var(--white);">Pesan Sekarang!</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">Jangan sampai kehabisan! Stok terbatas dan promo berakhir segera.</p>
+            
+            <div class="order-buttons">
+                <a href="[ISI_LINK_FORM_ORDER]" class="order-btn" target="_blank">
+                    <i class="fas fa-shopping-cart"></i>
+                    Order via Form
+                </a>
+                
+                <a href="#" class="order-btn whatsapp" id="whatsappBtn">
+                    <i class="fab fa-whatsapp"></i>
+                    Order via WhatsApp
+                </a>
+            </div>
+            
+            <p style="margin-top: 2rem; opacity: 0.9;">
+                <i class="fas fa-shield-alt"></i>
+                Transaksi 100% Aman & Terpercaya
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Hubungi Kami</h2>
+            
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h4>WhatsApp</h4>
+                    <a href="https://wa.me/[ISI_NOMOR_WA]" target="_blank">[ISI_NOMOR_WA]</a>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <h4>Instagram</h4>
+                    <a href="https://instagram.com/[ISI_INSTAGRAM]" target="_blank">@[ISI_INSTAGRAM]</a>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h4>Alamat Toko</h4>
+                    <p>[ISI_ALAMAT]</p>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4>Jam Operasional</h4>
+                    <p>Senin - Sabtu: 09:00 - 21:00<br>Minggu: 10:00 - 18:00</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>&copy; 2025 [ISI_NAMA_BRAND]. All rights reserved.</p>
+                    <p>[ISI_TAGLINE]</p>
+                </div>
+                
+                <div class="footer-social">
+                    <a href="https://wa.me/[ISI_NOMOR_WA]" class="social-link" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="https://instagram.com/[ISI_INSTAGRAM]" class="social-link" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="[ISI_WEBSITE]" class="social-link" target="_blank">
+                        <i class="fas fa-globe"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const icon = mobileToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Gallery Image Change
+        function changeMainImage(thumbnail) {
+            const mainImage = document.getElementById('mainImage');
+            mainImage.src = thumbnail.src;
+            
+            // Update active thumbnail
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+            });
+            thumbnail.classList.add('active');
+        }
+
+        // Color Selection
+        function selectColor(colorOption) {
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            colorOption.classList.add('active');
+            
+            // Update selected color for WhatsApp message
+            window.selectedColor = colorOption.dataset.color;
+            updateWhatsAppLink();
+        }
+
+        // Size Selection
+        function selectSize(sizeOption) {
+            document.querySelectorAll('.size-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            sizeOption.classList.add('active');
+            
+            // Update selected size for WhatsApp message
+            window.selectedSize = sizeOption.textContent;
+            updateWhatsAppLink();
+        }
+
+        // Quantity Controls
+        function increaseQty() {
+            const qtyInput = document.getElementById('quantity');
+            const currentQty = parseInt(qtyInput.value);
+            const maxQty = parseInt(qtyInput.max);
+            
+            if (currentQty < maxQty) {
+                qtyInput.value = currentQty + 1;
+                updateWhatsAppLink();
+            }
+        }
+
+        function decreaseQty() {
+            const qtyInput = document.getElementById('quantity');
+            const currentQty = parseInt(qtyInput.value);
+            
+            if (currentQty > 1) {
+                qtyInput.value = currentQty - 1;
+                updateWhatsAppLink();
+            }
+        }
+
+        // Update quantity when input changes
+        document.getElementById('quantity').addEventListener('change', function() {
+            const qty = parseInt(this.value);
+            const maxQty = parseInt(this.max);
+            
+            if (qty < 1) this.value = 1;
+            if (qty > maxQty) this.value = maxQty;
+            
+            updateWhatsAppLink();
+        });
+
+        // WhatsApp Link Update
+        function updateWhatsAppLink() {
+            const productName = '[ISI_NAMA_PRODUK]';
+            const price = 'Rp [ISI_HARGA_PROMO]';
+            const quantity = document.getElementById('quantity').value;
+            const color = window.selectedColor || 'Black';
+            const size = window.selectedSize || 'M';
+            
+            let message = `Halo, saya tertarik dengan ${productName}\n\n`;
+            message += `Detail Pesanan:\n`;
+            message += `• Produk: ${productName}\n`;
+            message += `• Warna: ${color}\n`;
+            message += `• Ukuran: ${size}\n`;
+            message += `• Jumlah: ${quantity} pcs\n`;
+            message += `• Harga: ${price} per pcs\n\n`;
+            message += `Mohon info lebih lanjut untuk pemesanan. Terima kasih!`;
+            
+            const whatsappUrl = `https://wa.me/[ISI_NOMOR_WA]?text=${encodeURIComponent(message)}`;
+            document.getElementById('whatsappBtn').href = whatsappUrl;
+        }
+
+        // FAQ Toggle
+        function toggleFaq(question) {
+            const faqItem = question.parentElement;
+            const answer = faqItem.querySelector('.faq-answer');
+            const icon = question.querySelector('.faq-icon');
+            
+            // Close other FAQs
+            document.querySelectorAll('.faq-item').forEach(item => {
+                if (item !== faqItem) {
+                    item.classList.remove('active');
+                    item.querySelector('.faq-answer').classList.remove('active');
+                }
+            });
+            
+            // Toggle current FAQ
+            faqItem.classList.toggle('active');
+            answer.classList.toggle('active');
+        }
+
+        // Countdown Timer
+        function startCountdown() {
+            // Set the date we're counting down to (replace with actual end date)
+            const countDownDate = new Date('[ISI_TANGGAL_BERAKHIR]').getTime();
+            
+            const timer = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = countDownDate - now;
+                
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                // Display the result
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+                
+                // If the countdown is finished
+                if (distance < 0) {
+                    clearInterval(timer);
+                    document.getElementById('countdown').innerHTML = '<h3 style="color: var(--danger);">Promo Berakhir!</h3>';
+                }
+            }, 1000);
+        }
+
+        // Scroll Animations
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.testimonial, .benefit, .faq-item');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('fade-in-up');
+                }
+            });
+        }
+
+        // Header Background on Scroll
+        function handleHeaderScroll() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = 'var(--white)';
+                header.style.backdropFilter = 'none';
+            }
+        }
+
+        // Initialize Everything
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize WhatsApp link
+            window.selectedColor = 'Black';
+            window.selectedSize = 'M';
+            updateWhatsAppLink();
+            
+            // Start countdown timer
+            startCountdown();
+            
+            // Add scroll event listeners
+            window.addEventListener('scroll', () => {
+                animateOnScroll();
+                handleHeaderScroll();
+            });
+            
+            // Initial animation check
+            animateOnScroll();
+        });
+
+        // Lazy Loading Images
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src || img.src;
+                        img.classList.remove('lazy');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+            
+            document.querySelectorAll('img[loading="lazy"]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+
+        // Performance Optimization
+        let ticking = false;
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    handleHeaderScroll();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', requestTick);
+
+        // Error Handling for Images
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('error', function() {
+                this.style.display = 'none';
+            });
+        });
+
+        // Analytics Event Tracking (if Google Analytics is available)
+        function trackEvent(action, category = 'User Interaction') {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', action, {
+                    'event_category': category,
+                    'event_label': window.location.pathname
+                });
+            }
+        }
+
+        // Track button clicks
+        document.querySelectorAll('.hero-cta, .order-btn, .cta-header').forEach(btn => {
+            btn.addEventListener('click', () => {
+                trackEvent('CTA Click', 'Conversion');
+            });
+        });
+
+        // Track variant selections
+        document.querySelectorAll('.color-option, .size-option').forEach(option => {
+            option.addEventListener('click', () => {
+                trackEvent('Variant Selection', 'Product Interaction');
+            });
+        });
+    </script>
+
+    <!-- Google Analytics (replace with actual GA ID) -->
+    <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=[ISI_GA_ID]"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '[ISI_GA_ID]');
+    </script>
+    -->
+
+    <!-- Facebook Pixel (replace with actual Pixel ID) -->
+    <!--
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '[ISI_FB_PIXEL]');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=[ISI_FB_PIXEL]&ev=PageView&noscript=1"/></noscript>
+    -->
+
+</body>
+</html>
