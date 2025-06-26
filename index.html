@@ -1,0 +1,1570 @@
+import React, { useState } from 'react';
+import { toast } from 'sonner';
+
+interface FormData {
+  // Section 1: Product Info
+  productName: string;
+  category: string;
+  originalPrice: string;
+  discountPrice: string;
+  description: string;
+  
+  // Section 2: Visual & Media
+  mainImage: string;
+  videoDemo: string;
+  gallery: string;
+  
+  // Hijab specific
+  hijabColor: string;
+  hijabStyle: string;
+  customHijabColors: Array<{
+    colorName: string;
+    colorImage: string;
+  }>;
+  
+  // Section 3: OrderOnline
+  embedCode: string;
+  storeName: string;
+  whatsappNumber: string;
+  
+  // Section 4: Design
+  colorScheme: string;
+  layoutStyle: string;
+  
+  // Section 5: Recommendations
+  enableRecommendations: boolean;
+  recommendationTitle: string;
+  productCount: number;
+  recommendations: Array<{
+    name: string;
+    price: string;
+    link: string;
+    image: string;
+    badge: string;
+  }>;
+  
+  // Section 6: Marketing
+  targetAudience: string;
+  uniqueSellingPoint: string;
+  additionalNotes: string;
+}
+
+const GeneratorForm = () => {
+  const [currentSection, setCurrentSection] = useState(1);
+  const [generatedHTML, setGeneratedHTML] = useState('');
+  const [isGenerating, setIsGenerating] = useState(false);
+  
+  const [formData, setFormData] = useState<FormData>({
+    productName: '',
+    category: '',
+    originalPrice: '',
+    discountPrice: '',
+    description: '',
+    mainImage: '',
+    videoDemo: '',
+    gallery: '',
+    hijabColor: '',
+    hijabStyle: '',
+    customHijabColors: [],
+    embedCode: '',
+    storeName: '',
+    whatsappNumber: '',
+    colorScheme: '',
+    layoutStyle: '',
+    enableRecommendations: false,
+    recommendationTitle: '🛍️ Rekomendasi Lainnya',
+    productCount: 3,
+    recommendations: [],
+    targetAudience: '',
+    uniqueSellingPoint: '',
+    additionalNotes: ''
+  });
+
+  const updateFormData = (field: keyof FormData, value: any) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const addRecommendation = () => {
+    const newRecommendations = [...formData.recommendations];
+    newRecommendations.push({
+      name: '',
+      price: '',
+      link: '',
+      image: '',
+      badge: ''
+    });
+    updateFormData('recommendations', newRecommendations);
+  };
+
+  const updateRecommendation = (index: number, field: string, value: string) => {
+    const newRecommendations = [...formData.recommendations];
+    newRecommendations[index] = { ...newRecommendations[index], [field]: value };
+    updateFormData('recommendations', newRecommendations);
+  };
+
+  const addCustomHijabColor = () => {
+    const newColors = [...formData.customHijabColors, { colorName: '', colorImage: '' }];
+    updateFormData('customHijabColors', newColors);
+  };
+
+  const updateCustomHijabColor = (index: number, field: 'colorName' | 'colorImage', value: string) => {
+    const newColors = [...formData.customHijabColors];
+    newColors[index] = { ...newColors[index], [field]: value };
+    updateFormData('customHijabColors', newColors);
+  };
+
+  const removeCustomHijabColor = (index: number) => {
+    const newColors = formData.customHijabColors.filter((_, i) => i !== index);
+    updateFormData('customHijabColors', newColors);
+  };
+
+  const generateHTML = () => {
+    setIsGenerating(true);
+    
+    // Simulate generation process
+    setTimeout(() => {
+      const html = createCompleteHTML();
+      setGeneratedHTML(html);
+      setIsGenerating(false);
+      
+      // Show success notification
+      toast.success("✅ Single HTML File berhasil di-generate! Siap upload ke GitHub Pages!");
+      
+      // Scroll to result
+      setTimeout(() => {
+        document.getElementById('result-section')?.scrollIntoView({ 
+          behavior: 'smooth' 
+        });
+      }, 100);
+    }, 2000);
+  };
+
+  const createCompleteHTML = () => {
+    const colorSchemes = {
+      'Nature Green': {
+        primary: '#1a3b1a',
+        secondary: '#27ae60',
+        accent: '#2ecc71',
+        background: '#f8f9fa',
+        text: '#2c3e50'
+      },
+      'Ocean Blue': {
+        primary: '#0c4a6e',
+        secondary: '#0284c7',
+        accent: '#38bdf8',
+        background: '#f0f9ff',
+        text: '#1e293b'
+      },
+      'Sunset Warm': {
+        primary: '#9a3412',
+        secondary: '#ea580c',
+        accent: '#fb923c',
+        background: '#fff7ed',
+        text: '#431407'
+      },
+      'Luxury Gold': {
+        primary: '#78350f',
+        secondary: '#d97706',
+        accent: '#fbbf24',
+        background: '#fffbeb',
+        text: '#451a03'
+      },
+      'Minimalist Mono': {
+        primary: '#1f2937',
+        secondary: '#4b5563',
+        accent: '#6b7280',
+        background: '#f9fafb',
+        text: '#111827'
+      },
+      'Pastel Soft': {
+        primary: '#7c3aed',
+        secondary: '#a855f7',
+        accent: '#c084fc',
+        background: '#faf5ff',
+        text: '#581c87'
+      },
+      'Islamic Teal': {
+        primary: '#0f766e',
+        secondary: '#14b8a6',
+        accent: '#5eead4',
+        background: '#f0fdfa',
+        text: '#134e4a'
+      },
+      'Earthy Brown': {
+        primary: '#78350f',
+        secondary: '#a16207',
+        accent: '#d97706',
+        background: '#fffbeb',
+        text: '#451a03'
+      }
+    };
+
+    const selectedColors = colorSchemes[formData.colorScheme as keyof typeof colorSchemes] || colorSchemes['Nature Green'];
+
+    return `<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${formData.productName} - ${formData.storeName}</title>
+    <meta name="description" content="${formData.description}">
+    <meta name="keywords" content="${formData.category}, ${formData.productName}, ${formData.storeName}">
+    <meta name="author" content="${formData.storeName}">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="${formData.productName} - ${formData.storeName}">
+    <meta property="og:description" content="${formData.description}">
+    <meta property="og:image" content="${formData.mainImage}">
+    <meta property="og:type" content="product">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: ${selectedColors.primary};
+            --secondary: ${selectedColors.secondary};
+            --accent: ${selectedColors.accent};
+            --background: ${selectedColors.background};
+            --text: ${selectedColors.text};
+            --white: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--background);
+            scroll-behavior: smooth;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="white" opacity="0.1"/><circle cx="80" cy="80" r="3" fill="white" opacity="0.05"/><circle cx="40" cy="60" r="1" fill="white" opacity="0.1"/></svg>');
+            animation: float 20s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+            100% { transform: translateY(0px) rotate(360deg); }
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+            z-index: 2;
+            position: relative;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .product-image {
+            max-width: 400px;
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            margin: 2rem auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .product-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .price-box {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 2rem;
+            margin: 2rem auto;
+            border: 1px solid rgba(255,255,255,0.2);
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: rgba(255,255,255,0.7);
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            margin-bottom: 0.5rem;
+        }
+        
+        .discount-price {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            color: var(--accent);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .cta-button {
+            background: linear-gradient(45deg, var(--accent), #ffd700);
+            color: var(--primary);
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+        
+        /* Section Styles */
+        .section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 3rem;
+            color: var(--primary);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+        
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .feature-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .feature-text {
+            color: var(--text);
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+        
+        /* Gallery Grid */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        
+        .gallery img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Hijab Colors */
+        .hijab-colors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        
+        .color-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .color-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        
+        .color-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .color-card-content {
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .color-name {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Order Section */
+        .order-section {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .order-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            padding: 3rem;
+            border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .whatsapp-button {
+            background: #25d366;
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 1rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .whatsapp-button:hover {
+            background: #128c7e;
+            transform: scale(1.05);
+        }
+        
+        /* Recommendations */
+        .recommendations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .recommendation-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .recommendation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        
+        .recommendation-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .recommendation-content {
+            padding: 1.5rem;
+        }
+        
+        .recommendation-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .recommendation-price {
+            font-weight: bold;
+            color: var(--secondary);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .recommendation-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .recommendation-link:hover {
+            color: var(--secondary);
+        }
+        
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        
+        .footer h3 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .footer p {
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content {
+                padding: 1rem;
+            }
+            
+            .price-box {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+            
+            .section {
+                padding: 2rem 1rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .hijab-colors {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            
+            .recommendations {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .cta-button {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+            
+            .whatsapp-button {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>${formData.productName}</h1>
+            <p>${formData.description}</p>
+            
+            ${formData.mainImage ? `<img src="${formData.mainImage}" alt="${formData.productName}" class="product-image">` : ''}
+            
+            <div class="price-box">
+                ${formData.originalPrice ? `<div class="original-price">Rp ${formData.originalPrice}</div>` : ''}
+                ${formData.discountPrice ? `<div class="discount-price">Rp ${formData.discountPrice}</div>` : ''}
+            </div>
+            
+            <a href="#order" class="cta-button">
+                <i class="fab fa-whatsapp"></i> Pesan Sekarang
+            </a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section">
+        <h2 class="section-title">Mengapa Pilih ${formData.productName}?</h2>
+        
+        <div class="features">
+            <div class="feature-card">
+                <i class="fas fa-star feature-icon"></i>
+                <h3 class="feature-title">Kualitas Premium</h3>
+                <p class="feature-text">${formData.uniqueSellingPoint}</p>
+            </div>
+            
+            <div class="feature-card">
+                <i class="fas fa-shipping-fast feature-icon"></i>
+                <h3 class="feature-title">Pengiriman Cepat</h3>
+                <p class="feature-text">Dikirim langsung dari ${formData.storeName} dengan packaging premium dan aman</p>
+            </div>
+            
+            <div class="feature-card">
+                <i class="fas fa-shield-alt feature-icon"></i>
+                <h3 class="feature-title">Garansi Kualitas</h3>
+                <p class="feature-text">100% original dan bergaransi untuk kepuasan dan kepercayaan Anda</p>
+            </div>
+        </div>
+        
+        ${formData.customHijabColors && formData.customHijabColors.length > 0 ? `
+        <h3 class="section-title" style="font-size: 2rem; margin-top: 4rem;">Pilihan Warna Tersedia</h3>
+        <div class="hijab-colors">
+            ${formData.customHijabColors.map(color => `
+                <div class="color-card" onclick="selectColor('${color.colorName}')">
+                    ${color.colorImage ? `<img src="${color.colorImage}" alt="${color.colorName}">` : ''}
+                    <div class="color-card-content">
+                        <div class="color-name">${color.colorName}</div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+        ` : ''}
+        
+        ${formData.gallery ? `
+        <h3 class="section-title" style="font-size: 2rem; margin-top: 4rem;">Galeri Produk</h3>
+        <div class="gallery">
+            ${formData.gallery.split('\n').filter(url => url.trim()).map(url => 
+                `<img src="${url.trim()}" alt="${formData.productName}" loading="lazy">`
+            ).join('')}
+        </div>
+        ` : ''}
+    </section>
+
+    <!-- Order Section -->
+    <section class="order-section" id="order">
+        <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 2rem;">
+            Pesan ${formData.productName} Sekarang!
+        </h2>
+        
+        <div class="order-form">
+            ${formData.embedCode ? formData.embedCode : `
+            <h3 style="margin-bottom: 2rem; font-size: 1.3rem;">Hubungi Kami di WhatsApp</h3>
+            <p style="margin-bottom: 2rem; opacity: 0.9;">Dapatkan penawaran khusus dan konsultasi gratis!</p>
+            <a href="https://wa.me/${formData.whatsappNumber}?text=Halo%20${formData.storeName},%20saya%20tertarik%20dengan%20${encodeURIComponent(formData.productName)}.%20Bisa%20info%20lebih%20lanjut?" class="whatsapp-button">
+                <i class="fab fa-whatsapp"></i> Chat WhatsApp
+            </a>
+            `}
+        </div>
+    </section>
+
+    ${formData.enableRecommendations && formData.recommendations.length > 0 ? `
+    <!-- Recommendations Section -->
+    <section class="section">
+        <h2 class="section-title">${formData.recommendationTitle}</h2>
+        
+        <div class="recommendations">
+            ${formData.recommendations.map(rec => `
+                <div class="recommendation-card">
+                    ${rec.badge ? `<div class="badge">${rec.badge}</div>` : ''}
+                    ${rec.image ? `<img src="${rec.image}" alt="${rec.name}" loading="lazy">` : ''}
+                    <div class="recommendation-content">
+                        <h4 class="recommendation-name">${rec.name}</h4>
+                        <p class="recommendation-price">Rp ${rec.price}</p>
+                        ${rec.link ? `<a href="${rec.link}" class="recommendation-link">Lihat Detail →</a>` : ''}
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    </section>
+    ` : ''}
+
+    <!-- Footer -->
+    <footer class="footer">
+        <h3>${formData.storeName}</h3>
+        <p>Terima kasih telah mempercayai produk berkualitas dari kami</p>
+        <div>
+            <a href="https://wa.me/${formData.whatsappNumber}" class="whatsapp-button">
+                <i class="fab fa-whatsapp"></i> Hubungi Kami
+            </a>
+        </div>
+        <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.7;">
+            © ${new Date().getFullYear()} ${formData.storeName}. All rights reserved.
+        </p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Color selection function for hijab
+        function selectColor(colorName) {
+            const message = \`Halo ${formData.storeName}, saya tertarik dengan ${formData.productName} warna \${colorName}. Bisa info harga dan ketersediaan?\`;
+            const whatsappUrl = \`https://wa.me/${formData.whatsappNumber}?text=\${encodeURIComponent(message)}\`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Parallax effect for hero section
+        let ticking = false;
+        function updateParallax() {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                const parallax = scrolled * 0.3;
+                hero.style.transform = \`translateY(\${parallax}px)\`;
+            }
+            ticking = false;
+        }
+
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', requestTick);
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const animateElements = document.querySelectorAll('.feature-card, .color-card, .recommendation-card, .gallery img');
+            animateElements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = \`all 0.6s ease \${index * 0.1}s\`;
+                observer.observe(el);
+            });
+        });
+
+        // Add loading states to images
+        document.addEventListener('DOMContentLoaded', () => {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.addEventListener('load', () => {
+                    img.style.opacity = '1';
+                });
+                img.style.opacity = '0';
+                img.style.transition = 'opacity 0.3s ease';
+            });
+        });
+
+        // Performance optimization: Lazy loading
+        if ('loading' in HTMLImageElement.prototype) {
+            const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+            lazyImages.forEach(img => {
+                img.src = img.src;
+            });
+        } else {
+            // Fallback for browsers that don't support lazy loading
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js';
+            script.onload = () => {
+                const observer = lozad();
+                observer.observe();
+            };
+            document.head.appendChild(script);
+        }
+
+        console.log('🚀 Landing Page loaded successfully!');
+        console.log('📱 Product: ${formData.productName}');
+        console.log('🏪 Store: ${formData.storeName}');
+    </script>
+</body>
+</html>`;
+  };
+
+  // ... keep existing code (form handlers and UI components)
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(generatedHTML);
+      toast.success("✅ HTML berhasil disalin ke clipboard!");
+    } catch (err) {
+      toast.error("❌ Gagal menyalin ke clipboard");
+    }
+  };
+
+  const downloadHTML = () => {
+    const blob = new Blob([generatedHTML], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${formData.productName.toLowerCase().replace(/\s+/g, '-')}-landing-page.html`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast.success("✅ File HTML berhasil didownload!");
+  };
+
+  return (
+    <section id="generator-form" className="py-20 bg-gradient-to-b from-warm-white to-white">
+      <div className="max-w-6xl mx-auto px-4">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2 className="font-lora text-4xl md:text-5xl font-bold text-navy mb-4">
+            Single HTML Generator
+          </h2>
+          <p className="text-xl text-slate max-w-3xl mx-auto">
+            Generate satu file HTML lengkap yang siap upload ke GitHub Pages - Complete CSS & JavaScript included!
+          </p>
+        </div>
+
+        {/* Form Sections */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Section 1: Product Info */}
+          <div className="glass-card p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="section-number">01</div>
+              <div>
+                <h3 className="font-lora text-2xl font-bold text-navy">Informasi Produk</h3>
+                <p className="text-slate">Data dasar produk Anda</p>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className="input-group">
+                <i className="input-icon fas fa-tag"></i>
+                <input
+                  type="text"
+                  placeholder="Nama Produk *"
+                  value={formData.productName}
+                  onChange={(e) => updateFormData('productName', e.target.value)}
+                  className="glass-input"
+                  required
+                />
+              </div>
+
+              <div className="input-group">
+                <i className="input-icon fas fa-list"></i>
+                <select
+                  value={formData.category}
+                  onChange={(e) => updateFormData('category', e.target.value)}
+                  className="glass-input"
+                  required
+                >
+                  <option value="">Pilih Kategori *</option>
+                  <option value="Fashion & Pakaian">Fashion & Pakaian</option>
+                  <option value="Hijab & Busana Muslim">Hijab & Busana Muslim</option>
+                  <option value="Elektronik & Gadget">Elektronik & Gadget</option>
+                  <option value="Kecantikan & Skincare">Kecantikan & Skincare</option>
+                  <option value="Makanan & Minuman">Makanan & Minuman</option>
+                  <option value="Rumah & Dekorasi">Rumah & Dekorasi</option>
+                  <option value="Olahraga & Fitness">Olahraga & Fitness</option>
+                  <option value="Buku & Edukasi">Buku & Edukasi</option>
+                  <option value="Produk Digital">Produk Digital</option>
+                  <option value="Layanan Jasa">Layanan Jasa</option>
+                </select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="input-group">
+                  <i className="input-icon fas fa-dollar-sign"></i>
+                  <input
+                    type="text"
+                    placeholder="Harga Asli *"
+                    value={formData.originalPrice}
+                    onChange={(e) => updateFormData('originalPrice', e.target.value)}
+                    className="glass-input"
+                  />
+                </div>
+                <div className="input-group">
+                  <i className="input-icon fas fa-percentage"></i>
+                  <input
+                    type="text"
+                    placeholder="Harga Diskon"
+                    value={formData.discountPrice}
+                    onChange={(e) => updateFormData('discountPrice', e.target.value)}
+                    className="glass-input"
+                  />
+                </div>
+              </div>
+
+              <div className="input-group">
+                <i className="input-icon fas fa-align-left"></i>
+                <textarea
+                  placeholder="Deskripsi Produk *"
+                  value={formData.description}
+                  onChange={(e) => updateFormData('description', e.target.value)}
+                  className="glass-input"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Section 2: Visual & Media */}
+          <div className="glass-card p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="section-number">02</div>
+              <div>
+                <h3 className="font-lora text-2xl font-bold text-navy">Visual & Media</h3>
+                <p className="text-slate">Gambar dan video produk</p>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className="input-group">
+                <i className="input-icon fas fa-image"></i>
+                <input
+                  type="url"
+                  placeholder="Link Gambar Utama *"
+                  value={formData.mainImage}
+                  onChange={(e) => updateFormData('mainImage', e.target.value)}
+                  className="glass-input"
+                />
+              </div>
+
+              <div className="input-group">
+                <i className="input-icon fas fa-video"></i>
+                <input
+                  type="url"
+                  placeholder="Link Video Demo"
+                  value={formData.videoDemo}
+                  onChange={(e) => updateFormData('videoDemo', e.target.value)}
+                  className="glass-input"
+                />
+              </div>
+
+              <div className="input-group">
+                <i className="input-icon fas fa-images"></i>
+                <textarea
+                  placeholder="Galeri Produk (satu URL per baris)"
+                  value={formData.gallery}
+                  onChange={(e) => updateFormData('gallery', e.target.value)}
+                  className="glass-input"
+                />
+              </div>
+
+              {/* Hijab Section */}
+              {formData.category === 'Hijab & Busana Muslim' && (
+                <div className="hijab-section">
+                  <h4 className="font-lora text-lg font-bold text-navy mb-4">
+                    <i className="fas fa-moon text-accent-teal mr-2"></i>
+                    Khusus Hijab
+                  </h4>
+                  
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div className="input-group">
+                      <i className="input-icon fas fa-palette"></i>
+                      <select
+                        value={formData.hijabColor}
+                        onChange={(e) => updateFormData('hijabColor', e.target.value)}
+                        className="glass-input"
+                      >
+                        <option value="">Warna Hijab</option>
+                        <option value="Black">Hitam</option>
+                        <option value="White">Putih</option>
+                        <option value="Navy">Navy</option>
+                        <option value="Brown">Coklat</option>
+                        <option value="Grey">Abu-abu</option>
+                        <option value="Custom">Custom</option>
+                      </select>
+                    </div>
+                    
+                    <div className="input-group">
+                      <i className="input-icon fas fa-tshirt"></i>
+                      <select
+                        value={formData.hijabStyle}
+                        onChange={(e) => updateFormData('hijabStyle', e.target.value)}
+                        className="glass-input"
+                      >
+                        <option value="">Style Hijab</option>
+                        <option value="Pashmina">Pashmina</option>
+                        <option value="Segi Empat">Segi Empat</option>
+                        <option value="Bergo">Bergo</option>
+                        <option value="Khimar">Khimar</option>
+                        <option value="Ciput">Ciput</option>
+                        <option value="Hijab Sport">Hijab Sport</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Custom Hijab Colors */}
+                  <div className="mt-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <h5 className="font-medium text-navy">Custom Warna Hijab</h5>
+                      <button
+                        type="button"
+                        onClick={addCustomHijabColor}
+                        className="px-4 py-2 bg-accent-teal hover:bg-navy text-white rounded-lg transition-colors flex items-center gap-2"
+                      >
+                        <i className="fas fa-plus"></i>
+                        Tambah Warna
+                      </button>
+                    </div>
+
+                    <div className="space-y-4">
+                      {formData.customHijabColors.map((color, index) => (
+                        <div key={index} className="p-4 border border-accent-teal/20 rounded-xl bg-accent-teal/5">
+                          <div className="flex items-center justify-between mb-3">
+                            <span className="text-sm font-medium text-navy">Warna {index + 1}</span>
+                            <button
+                              type="button"
+                              onClick={() => removeCustomHijabColor(index)}
+                              className="text-red-500 hover:text-red-700"
+                            >
+                              <i className="fas fa-trash"></i>
+                            </button>
+                          </div>
+                          
+                          <div className="space-y-3">
+                            <div className="input-group">
+                              <i className="input-icon fas fa-palette"></i>
+                              <input
+                                type="text"
+                                placeholder="Nama Warna (contoh: Maroon Elegan)"
+                                value={color.colorName}
+                                onChange={(e) => updateCustomHijabColor(index, 'colorName', e.target.value)}
+                                className="glass-input"
+                              />
+                            </div>
+                            
+                            <div className="input-group">
+                              <i className="input-icon fas fa-image"></i>
+                              <input
+                                type="url"
+                                placeholder="Link Gambar Warna"
+                                value={color.colorImage}
+                                onChange={(e) => updateCustomHijabColor(index, 'colorImage', e.target.value)}
+                                className="glass-input"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Section 3: Store Info */}
+          <div className="glass-card p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="section-number">03</div>
+              <div>
+                <h3 className="font-lora text-2xl font-bold text-navy">Info Toko</h3>
+                <p className="text-slate">Kontak dan embedding</p>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className="input-group">
+                <i className="input-icon fas fa-store"></i>
+                <input
+                  type="text"
+                  placeholder="Nama Toko/Brand *"
+                  value={formData.storeName}
+                  onChange={(e) => updateFormData('storeName', e.target.value)}
+                  className="glass-input"
+                  required
+                />
+              </div>
+
+              <div className="input-group">
+                <i className="input-icon fab fa-whatsapp"></i>
+                <input
+                  type="text"
+                  placeholder="Nomor WhatsApp (contoh: 6281234567890) *"
+                  value={formData.whatsappNumber}
+                  onChange={(e) => updateFormData('whatsappNumber', e.target.value)}
+                  className="glass-input"
+                  required
+                />
+              </div>
+
+              <div className="input-group">
+                <i className="input-icon fas fa-code"></i>
+                <textarea
+                  placeholder="Embed Code OrderOnline (opsional)"
+                  value={formData.embedCode}
+                  onChange={(e) => updateFormData('embedCode', e.target.value)}
+                  className="glass-input font-mono text-sm"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Section 4: Design */}
+          <div className="glass-card p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="section-number">04</div>
+              <div>
+                <h3 className="font-lora text-2xl font-bold text-navy">Design & Style</h3>
+                <p className="text-slate">Tema dan tampilan</p>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className="input-group">
+                <i className="input-icon fas fa-palette"></i>
+                <select
+                  value={formData.colorScheme}
+                  onChange={(e) => updateFormData('colorScheme', e.target.value)}
+                  className="glass-input"
+                  required
+                >
+                  <option value="">Pilih Color Scheme *</option>
+                  <option value="Nature Green">🌿 Nature Green</option>
+                  <option value="Ocean Blue">🌊 Ocean Blue</option>
+                  <option value="Sunset Warm">🌅 Sunset Warm</option>
+                  <option value="Luxury Gold">✨ Luxury Gold</option>
+                  <option value="Minimalist Mono">⚫ Minimalist Mono</option>
+                  <option value="Pastel Soft">🌸 Pastel Soft</option>
+                  <option value="Islamic Teal">🕌 Islamic Teal</option>
+                  <option value="Earthy Brown">🍂 Earthy Brown</option>
+                </select>
+              </div>
+
+              <div className="input-group">
+                <i className="input-icon fas fa-paint-brush"></i>
+                <select
+                  value={formData.layoutStyle}
+                  onChange={(e) => updateFormData('layoutStyle', e.target.value)}
+                  className="glass-input"
+                  required
+                >
+                  <option value="">Pilih Layout Style *</option>
+                  <option value="Premium Luxury">💎 Premium Luxury</option>
+                  <option value="Modern Minimalist">⚡ Modern Minimalist</option>
+                  <option value="Islamic Elegant">🕌 Islamic Elegant</option>
+                  <option value="E-commerce Classic">🛒 E-commerce Classic</option>
+                  <option value="Fashion Forward">👗 Fashion Forward</option>
+                  <option value="Tech & Digital">💻 Tech & Digital</option>
+                  <option value="Natural & Organic">🌱 Natural & Organic</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Section 5: Recommendations */}
+          <div className="glass-card p-8 lg:col-span-2">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-4">
+                <div className="section-number">05</div>
+                <div>
+                  <h3 className="font-lora text-2xl font-bold text-navy">Rekomendasi Produk</h3>
+                  <p className="text-slate">Produk lain yang direkomendasikan</p>
+                </div>
+              </div>
+              
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={formData.enableRecommendations}
+                  onChange={(e) => updateFormData('enableRecommendations', e.target.checked)}
+                  className="w-5 h-5 text-accent-teal"
+                />
+                <span className="text-accent-teal font-medium">Aktifkan</span>
+              </label>
+            </div>
+
+            {formData.enableRecommendations && (
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="input-group">
+                    <i className="input-icon fas fa-heading"></i>
+                    <input
+                      type="text"
+                      placeholder="Judul Section"
+                      value={formData.recommendationTitle}
+                      onChange={(e) => updateFormData('recommendationTitle', e.target.value)}
+                      className="glass-input"
+                    />
+                  </div>
+                  
+                  <div className="input-group">
+                    <i className="input-icon fas fa-list-ol"></i>
+                    <select
+                      value={formData.productCount}
+                      onChange={(e) => {
+                        const count = parseInt(e.target.value);
+                        updateFormData('productCount', count);
+                        // Adjust recommendations array
+                        const newRecs = Array(count).fill(null).map((_, i) => 
+                          formData.recommendations[i] || {
+                            name: '', price: '', link: '', image: '', badge: ''
+                          }
+                        );
+                        updateFormData('recommendations', newRecs);
+                      }}
+                      className="glass-input"
+                    >
+                      <option value={3}>3 Produk</option>
+                      <option value={4}>4 Produk</option>
+                      <option value={6}>6 Produk</option>
+                      <option value={8}>8 Produk</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {Array(formData.productCount).fill(null).map((_, index) => (
+                    <div key={index} className="p-4 border border-accent-teal/20 rounded-2xl bg-accent-teal/5">
+                      <h4 className="font-medium text-navy mb-3">Produk {index + 1}</h4>
+                      
+                      <div className="space-y-3">
+                        <div className="input-group">
+                          <i className="input-icon fas fa-tag"></i>
+                          <input
+                            type="text"
+                            placeholder="Nama Produk"
+                            value={formData.recommendations[index]?.name || ''}
+                            onChange={(e) => updateRecommendation(index, 'name', e.target.value)}
+                            className="glass-input"
+                          />
+                        </div>
+                        
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="input-group">
+                            <i className="input-icon fas fa-dollar-sign"></i>
+                            <input
+                              type="text"
+                              placeholder="Harga"
+                              value={formData.recommendations[index]?.price || ''}
+                              onChange={(e) => updateRecommendation(index, 'price', e.target.value)}
+                              className="glass-input"
+                            />
+                          </div>
+                          
+                          <div className="input-group">
+                            <i className="input-icon fas fa-award"></i>
+                            <select
+                              value={formData.recommendations[index]?.badge || ''}
+                              onChange={(e) => updateRecommendation(index, 'badge', e.target.value)}
+                              className="glass-input"
+                            >
+                              <option value="">Badge</option>
+                              <option value="Stok Menipis">Stok Menipis</option>
+                              <option value="Best Seller">Best Seller</option>
+                              <option value="New">New</option>
+                              <option value="Diskon">Diskon</option>
+                              <option value="Limited">Limited</option>
+                            </select>
+                          </div>
+                        </div>
+                        
+                        <div className="input-group">
+                          <i className="input-icon fas fa-link"></i>
+                          <input
+                            type="url"
+                            placeholder="Link Landing Page"
+                            value={formData.recommendations[index]?.link || ''}
+                            onChange={(e) => updateRecommendation(index, 'link', e.target.value)}
+                            className="glass-input"
+                          />
+                        </div>
+                        
+                        <div className="input-group">
+                          <i className="input-icon fas fa-image"></i>
+                          <input
+                            type="url"
+                            placeholder="Link Gambar"
+                            value={formData.recommendations[index]?.image || ''}
+                            onChange={(e) => updateRecommendation(index, 'image', e.target.value)}
+                            className="glass-input"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Section 6: Marketing */}
+          <div className="glass-card p-8 lg:col-span-2">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="section-number">06</div>
+              <div>
+                <h3 className="font-lora text-2xl font-bold text-navy">Target & Marketing</h3>
+                <p className="text-slate">Informasi target dan keunggulan</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="input-group">
+                <i className="input-icon fas fa-users"></i>
+                <input
+                  type="text"
+                  placeholder="Target Audience *"
+                  value={formData.targetAudience}
+                  onChange={(e) => updateFormData('targetAudience', e.target.value)}
+                  className="glass-input"
+                  required
+                />
+              </div>
+
+              <div className="input-group">
+                <i className="input-icon fas fa-star"></i>
+                <input
+                  type="text"
+                  placeholder="Unique Selling Point *"
+                  value={formData.uniqueSellingPoint}
+                  onChange={(e) => updateFormData('uniqueSellingPoint', e.target.value)}
+                  className="glass-input"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <div className="input-group">
+                <i className="input-icon fas fa-sticky-note"></i>
+                <textarea
+                  placeholder="Catatan Tambahan"
+                  value={formData.additionalNotes}
+                  onChange={(e) => updateFormData('additionalNotes', e.target.value)}
+                  className="glass-input"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Generate Button */}
+        <div className="text-center mt-16">
+          <button
+            onClick={generateHTML}
+            disabled={isGenerating || !formData.productName || !formData.category || !formData.storeName || !formData.whatsappNumber}
+            className={`btn-generate ${isGenerating ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
+            {isGenerating ? (
+              <>
+                <i className="fas fa-spinner fa-spin text-2xl mr-3"></i>
+                Generating Single HTML File...
+              </>
+            ) : (
+              <>
+                <i className="fas fa-code text-2xl mr-3"></i>
+                Generate Single HTML File
+              </>
+            )}
+          </button>
+        </div>
+
+        {/* Result Section */}
+        {generatedHTML && (
+          <div id="result-section" className="mt-16 result-container celebration">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <i className="fas fa-check-circle text-2xl text-green-500"></i>
+                <h3 className="font-lora text-2xl font-bold text-navy">
+                  🎉 Single HTML File Generated Successfully!
+                </h3>
+              </div>
+              
+              <div className="flex gap-3">
+                <button
+                  onClick={copyToClipboard}
+                  className="px-6 py-3 bg-accent-teal hover:bg-navy text-white rounded-xl transition-colors flex items-center gap-2"
+                >
+                  <i className="far fa-copy"></i>
+                  Copy HTML
+                </button>
+                
+                <button
+                  onClick={downloadHTML}
+                  className="px-6 py-3 bg-navy hover:bg-accent-teal text-white rounded-xl transition-colors flex items-center gap-2"
+                >
+                  <i className="fas fa-download"></i>
+                  Download
+                </button>
+              </div>
+            </div>
+
+            <div className="prompt-output scrollbar-hide">
+              <pre className="whitespace-pre-wrap">{generatedHTML}</pre>
+            </div>
+
+            {/* Instructions */}
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-lora text-lg font-bold text-navy mb-3">
+                  <i className="fas fa-rocket text-accent-teal mr-2"></i>
+                  Cara Deploy ke GitHub Pages:
+                </h4>
+                <ol className="text-slate space-y-2 list-decimal list-inside">
+                  <li>Buat repository baru di GitHub</li>
+                  <li>Upload file HTML sebagai <code className="bg-accent-teal/10 px-2 py-1 rounded">index.html</code></li>
+                  <li>Buka Settings → Pages</li>
+                  <li>Pilih source: Deploy from branch</li>
+                  <li>Pilih branch: main</li>
+                  <li>Website live dalam beberapa menit!</li>
+                </ol>
+              </div>
+              
+              <div>
+                <h4 className="font-lora text-lg font-bold text-navy mb-3">
+                  <i className="fas fa-star text-accent-teal mr-2"></i>
+                  Fitur Single HTML File:
+                </h4>
+                <ul className="text-slate space-y-2">
+                  <li><i className="fas fa-check text-accent-teal mr-2"></i>CSS & JavaScript inline</li>
+                  <li><i className="fas fa-check text-accent-teal mr-2"></i>100% responsive design</li>
+                  <li><i className="fas fa-check text-accent-teal mr-2"></i>WhatsApp integration</li>
+                  <li><i className="fas fa-check text-accent-teal mr-2"></i>Premium animations</li>
+                  <li><i className="fas fa-check text-accent-teal mr-2"></i>SEO optimized</li>
+                  <li><i className="fas fa-check text-accent-teal mr-2"></i>Siap production!</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+export default GeneratorForm;
