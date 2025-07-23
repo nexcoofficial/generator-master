@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="login-box">
+    <h2>Register</h2>
+    <form onsubmit="return fakeRegister(event)">
+      <div class="input-box">
+        <input type="text" placeholder="Username" required>
+        <i class="fas fa-user-plus"></i>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Password" required>
+        <i class="fas fa-lock"></i>
+      </div>
+      <button type="submit" class="login-btn">Register</button>
+      <div class="register-link">
+        Already have an account? <a href="index.html">Login</a>
+      </div>
+    </form>
+  </div>
+  <script>
+    function fakeRegister(e) {
+      e.preventDefault();
+      alert("Registrasi berhasil!\n(Simulasi HTML saja)");
+      window.location.href = "index.html";
+      return false;
+    }
+  </script>
+</body>
+</html>
