@@ -1,40 +1,2178 @@
-<!DOCTYPE html>
-<html lang="en">
+// Add hijab specific section if category is hijab
+            if (data.productCategory === 'hijab') {
+                prompt += `\n\n🧕 PENGATURAN KHUSUS HIJAB:`;
+                if (data.hijabStyle) {
+                    prompt += `\n- Style Hijab: ${data.hijabStyle}`;
+                }
+                
+                // Add selected predefined colors
+                if (data.selectedColors && data.selectedColors.length > 0) {
+                    prompt += `\n- Warna Tersedia:`;
+                    data.selectedColors.forEach(color => {
+                        prompt += `\n  • ${color.name}: ${color.image} (Rp ${color.price.toLocaleString('id-ID')})`;
+                    });
+                }
+                
+                // Add custom colors
+                if (data.customColors && data.customColors.length > 0) {
+                    prompt += `\n- Warna Custom:`;
+                    data.customColors.forEach(color => {
+                        prompt += `\n  • ${color.name}: ${color.image} (Rp ${color.price.toLocaleString('id-ID')})`;
+                    });
+                }
+                
+                prompt += `\n\nIMPORTAN untuk tampilan warna hijab:
+- Buat section "Pilihan Warna" dengan header yang menarik
+- Tampilkan grid 4 kolom untuk desktop, 2 kolom untuk mobile
+- Setiap card warna berisi:
+  * Foto produk hijab dengan warna tersebut (full image)
+  * Nama warna di overlay putih transparan di bagian bawah foto
+  * Harga di bagian bawah card
+  * Icon keranjang di pojok kanan bawah
+  * Hover effect zoom in pada gambar
+- Tambahkan tombol "Lihat Semua Warna" jika ada banyak warna
+- Integrasikan dengan sistem pemilihan warna di form order`;
+            }<!DOCTYPE html>
+<html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <title>Login</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Landing Page Generator - Plant Shop Style</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Root Variables */
+        :root {
+            --forest: #1a3b1a;
+            --sage: #87a96b;
+            --mint: #a8d8a8;
+            --cream: #f8f6f0;
+            --earth: #6b5b47;
+            --gold: #d4af37;
+            --white: #ffffff;
+            --black: #000000;
+            --gray: #6b7280;
+            --light-gray: #f3f4f6;
+        }
+
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--forest);
+            background: var(--cream);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--forest) 0%, var(--sage) 50%, var(--mint) 100%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') repeat-x;
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--cream);
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 1s ease-out 0.2s;
+            animation-fill-mode: both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.25rem 3rem;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--forest);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: fadeInUp 1s ease-out 0.4s;
+            animation-fill-mode: both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            background: var(--white);
+        }
+
+        /* Floating Leaves Animation */
+        .floating-leaf {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.3;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .leaf1 { top: 10%; left: 10%; animation-delay: 0s; }
+        .leaf2 { top: 20%; right: 15%; animation-delay: 2s; }
+        .leaf3 { bottom: 30%; left: 20%; animation-delay: 4s; }
+        .leaf4 { bottom: 20%; right: 10%; animation-delay: 6s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator i {
+            font-size: 2rem;
+            color: var(--cream);
+            opacity: 0.6;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 3rem 0;
+            background: var(--white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--forest);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--sage);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            color: var(--forest);
+            margin-bottom: 1rem;
+        }
+
+        /* Main Form Section */
+        .form-section {
+            padding: 5rem 0;
+            background: linear-gradient(to bottom, var(--white), var(--cream));
+        }
+
+        .form-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .form-section-wrapper {
+            margin-bottom: 3rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--mint);
+        }
+
+        .section-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--sage), var(--forest));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-info h3 {
+            font-size: 1.75rem;
+            color: var(--forest);
+            margin-bottom: 0.25rem;
+        }
+
+        .section-icon {
+            font-size: 2rem;
+            color: var(--sage);
+        }
+
+        /* Glass Card Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Form Groups */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--forest);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .required {
+            color: var(--gold);
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--sage);
+            font-size: 1.1rem;
+            pointer-events: none;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--sage);
+            box-shadow: 0 0 0 4px rgba(135, 169, 107, 0.1);
+            transform: translateY(-1px);
+        }
+
+        /* Custom Hijab Section */
+        .hijab-section {
+            background: linear-gradient(135deg, rgba(135, 169, 107, 0.1), rgba(168, 216, 168, 0.1));
+            border: 2px solid var(--mint);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .hijab-section.active {
+            display: block;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hijab-title {
+            font-size: 1.5rem;
+            color: var(--forest);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        /* Predefined Colors Grid */
+        .predefined-colors {
+            margin-bottom: 2rem;
+        }
+
+        .colors-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .color-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .color-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .color-card.selected {
+            border-color: var(--sage);
+        }
+
+        .color-preview-box {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .color-name-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 0.5rem;
+            font-weight: 500;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .color-info {
+            padding: 0.75rem;
+            background: white;
+        }
+
+        .color-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .color-price {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .add-to-cart-icon {
+            position: absolute;
+            bottom: 0.75rem;
+            right: 0.75rem;
+            width: 32px;
+            height: 32px;
+            background: #f3f4f6;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .color-card:hover .add-to-cart-icon {
+            background: var(--sage);
+            color: white;
+        }
+
+        /* Custom Color Input */
+        .custom-color-section {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .custom-color-header {
+            margin-bottom: 1rem;
+        }
+
+        .custom-color-header h4 {
+            color: #333;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .add-custom-btn {
+            float: right;
+            padding: 0.6rem 1.2rem;
+            background: var(--sage);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .add-custom-btn:hover {
+            background: var(--forest);
+            transform: translateY(-1px);
+        }
+
+        .custom-color-form {
+            margin-top: 1rem;
+            clear: both;
+        }
+
+        .custom-color-form .form-grid {
+            gap: 1rem;
+        }
+
+        .custom-color-form input {
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+        }
+
+        .save-color-btn {
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--forest);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .save-color-btn:hover {
+            background: var(--sage);
+        }
+
+        .custom-colors-list {
+            margin-top: 1rem;
+        }
+
+        .custom-color-item {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .custom-color-preview {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            margin-right: 1rem;
+            background-size: cover;
+            background-position: center;
+            border: 1px solid var(--light-gray);
+        }
+
+        .custom-color-info {
+            flex: 1;
+        }
+
+        .custom-color-name {
+            font-weight: 600;
+            color: var(--forest);
+        }
+
+        .custom-color-url {
+            font-size: 0.8rem;
+            color: var(--gray);
+            word-break: break-all;
+        }
+
+        .remove-custom-btn {
+            padding: 0.4rem 0.8rem;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .remove-custom-btn:hover {
+            background: #dc2626;
+        }
+
+        /* Recommendations Section */
+        .recommendations-section {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: rgba(212, 175, 55, 0.05);
+            border-radius: 20px;
+            border: 2px solid var(--gold);
+            display: none;
+        }
+
+        .recommendations-section.active {
+            display: block;
+        }
+
+        .toggle-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .toggle-label {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--forest);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: var(--light-gray);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: var(--sage);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(30px);
+        }
+
+        .product-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .product-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .product-number {
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        /* Generate Button */
+        .generate-section {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .generate-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem 4rem;
+            background: linear-gradient(135deg, var(--sage), var(--forest));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(26, 59, 26, 0.3);
+        }
+
+        .generate-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(26, 59, 26, 0.4);
+        }
+
+        .generate-button:active {
+            transform: translateY(0);
+        }
+
+        .generate-button i {
+            font-size: 1.5rem;
+        }
+
+        /* Result Section */
+        .result-section {
+            display: none;
+            padding: 5rem 0;
+            background: var(--white);
+        }
+
+        .result-section.active {
+            display: block;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .result-header h2 {
+            font-size: 2.5rem;
+            color: var(--forest);
+            margin-bottom: 1rem;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: var(--sage);
+            margin-bottom: 1rem;
+        }
+
+        .result-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .prompt-output {
+            background: rgba(26, 59, 26, 0.05);
+            border: 2px solid var(--sage);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--sage);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .copy-button:hover {
+            background: var(--forest);
+        }
+
+        .copy-button.copied {
+            background: #10b981;
+        }
+
+        .prompt-content {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        /* Instructions */
+        .instructions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .instruction-card {
+            background: var(--cream);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .instruction-icon {
+            font-size: 2.5rem;
+            color: var(--sage);
+            margin-bottom: 1rem;
+        }
+
+        .instruction-card h3 {
+            font-size: 1.25rem;
+            color: var(--forest);
+            margin-bottom: 1rem;
+        }
+
+        /* Loading State */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(135, 169, 107, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--sage);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .section-number {
+                font-size: 2rem;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .generate-button {
+                padding: 1.25rem 2.5rem;
+                font-size: 1.1rem;
+            }
+            
+            .glass-card {
+                padding: 1.5rem;
+            }
+            
+            input, select, textarea {
+                padding: 0.875rem 0.875rem 0.875rem 2.5rem;
+            }
+            
+            .colors-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+            
+            .color-preview-box {
+                height: 150px;
+            }
+        }
+
+        /* Notification Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 2rem;
+            background: var(--forest);
+            color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
 <body>
-  <div class="login-box">
-    <h2>Login</h2>
-    <form onsubmit="return fakeLogin(event)">
-      <div class="input-box">
-        <input type="text" placeholder="Username" required id="username">
-        <i class="fas fa-user"></i>
-      </div>
-      <div class="input-box">
-        <input type="password" placeholder="Password" required id="password">
-        <i class="fas fa-lock"></i>
-      </div>
-      <div class="options">
-        <label><input type="checkbox"> Remember Me</label>
-        <a href="#">Forgot Password?</a>
-      </div>
-      <button type="submit" class="login-btn">Login</button>
-      <div class="register-link">
-        Don't have an account? <a href="register.html">Register</a>
-      </div>
-    </form>
-  </div>
-  <script>
-    function fakeLogin(e) {
-      e.preventDefault();
-      alert("Login berhasil!\n(Tapi ini hanya simulasi HTML)");
-      window.location.href = "dashboard.html";
-      return false;
-    }
-  </script>
+    <!-- Hero Section -->
+    <section class="hero">
+        <span class="floating-leaf leaf1">🌿</span>
+        <span class="floating-leaf leaf2">🍃</span>
+        <span class="floating-leaf leaf3">🌱</span>
+        <span class="floating-leaf leaf4">🌿</span>
+        
+        <div class="hero-content">
+            <h1>Premium Landing Page Generator</h1>
+            <p>Buat landing page profesional yang conversion-optimized dengan AI generator terdepan</p>
+            <a href="#generator" class="cta-button">
+                <i class="fas fa-magic"></i> Mulai Membuat Sekarang
+            </a>
+        </div>
+        
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- Features Section (Removed as requested) -->
+
+    <!-- Main Form Section -->
+    <section class="form-section" id="generator">
+        <div class="form-container">
+            <h2 class="section-title">Generate Landing Page Anda</h2>
+            <p class="section-subtitle">Isi form di bawah untuk menghasilkan prompt AI yang sempurna</p>
+
+            <!-- Section 1: Product Information -->
+            <div class="form-section-wrapper">
+                <div class="glass-card">
+                    <div class="section-header">
+                        <span class="section-number">01</span>
+                        <div class="section-info">
+                            <h3><i class="fas fa-box section-icon"></i> Informasi Produk</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Nama Produk <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-tag input-icon"></i>
+                                <input type="text" id="productName" placeholder="Contoh: Hijab Premium Silk">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Kategori Produk <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-list input-icon"></i>
+                                <select id="productCategory">
+                                    <option value="">Pilih Kategori</option>
+                                    <option value="fashion">Fashion & Pakaian</option>
+                                    <option value="hijab">Hijab & Busana Muslim</option>
+                                    <option value="elektronik">Elektronik & Gadget</option>
+                                    <option value="kecantikan">Kecantikan & Skincare</option>
+                                    <option value="makanan">Makanan & Minuman</option>
+                                    <option value="rumah">Rumah & Dekorasi</option>
+                                    <option value="olahraga">Olahraga & Fitness</option>
+                                    <option value="buku">Buku & Edukasi</option>
+                                    <option value="digital">Produk Digital</option>
+                                    <option value="jasa">Layanan Jasa</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Harga Asli <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-dollar-sign input-icon"></i>
+                                <input type="number" id="originalPrice" placeholder="299000">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Harga Diskon</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-percentage input-icon"></i>
+                                <input type="number" id="discountPrice" placeholder="199000">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label class="form-label">Deskripsi Produk <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-align-left input-icon" style="top: 1.5rem;"></i>
+                                <textarea id="productDescription" placeholder="Deskripsikan produk Anda dengan detail..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Special Hijab Section -->
+                    <div class="hijab-section" id="hijabSection">
+                        <h4 class="hijab-title">🧕 Pengaturan Khusus Hijab</h4>
+                        
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label class="form-label">Style Hijab</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-tshirt input-icon"></i>
+                                    <select id="hijabStyle">
+                                        <option value="">Pilih Style</option>
+                                        <option value="pashmina">Pashmina</option>
+                                        <option value="segiempat">Segi Empat</option>
+                                        <option value="bergo">Bergo</option>
+                                        <option value="khimar">Khimar</option>
+                                        <option value="ciput">Ciput</option>
+                                        <option value="sport">Hijab Sport</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Predefined Colors -->
+                        <div class="predefined-colors">
+                            <h5 style="margin-bottom: 1rem; color: #333; font-weight: 600;">Pilih Warna Hijab</h5>
+                            <div class="colors-grid" id="predefinedColors">
+                                <!-- Predefined colors will be generated here -->
+                            </div>
+                        </div>
+
+                        <!-- Custom Colors Section -->
+                        <div class="custom-color-section">
+                            <div class="custom-color-header">
+                                <h4>Warna Custom</h4>
+                                <button type="button" class="add-custom-btn" onclick="toggleCustomColorForm()">
+                                    <i class="fas fa-plus"></i> Tambah Warna
+                                </button>
+                            </div>
+                            
+                            <div class="custom-color-form" id="customColorForm">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label">Nama Warna</label>
+                                        <input type="text" id="customColorName" placeholder="Contoh: Dusty Pink">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Link Gambar</label>
+                                        <input type="url" id="customColorImage" placeholder="https://example.com/hijab-dusty-pink.jpg">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Harga (optional)</label>
+                                        <input type="number" id="customColorPrice" placeholder="145000">
+                                    </div>
+                                </div>
+                                <button type="button" class="save-color-btn" onclick="addCustomColor()">
+                                    <i class="fas fa-check"></i> Simpan Warna
+                                </button>
+                            </div>
+                            
+                            <div class="custom-colors-list" id="customColorsList" style="margin-top: 1rem;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Visual & Media -->
+            <div class="form-section-wrapper">
+                <div class="glass-card">
+                    <div class="section-header">
+                        <span class="section-number">02</span>
+                        <div class="section-info">
+                            <h3><i class="fas fa-image section-icon"></i> Visual & Media</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label class="form-label">Link Gambar Utama <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-image input-icon"></i>
+                                <input type="url" id="mainImage" placeholder="https://example.com/product-image.jpg">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label class="form-label">Link Video Demo</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-video input-icon"></i>
+                                <input type="url" id="videoDemo" placeholder="https://youtube.com/watch?v=...">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label class="form-label">Link GIF Animasi</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-film input-icon"></i>
+                                <input type="url" id="gifAnimation" placeholder="https://example.com/animation.gif">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label class="form-label">Galeri Produk (URLs dipisah dengan enter)</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-images input-icon" style="top: 1.5rem;"></i>
+                                <textarea id="productGallery" placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg&#10;https://example.com/image3.jpg"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: OrderOnline Integration -->
+            <div class="form-section-wrapper">
+                <div class="glass-card">
+                    <div class="section-header">
+                        <span class="section-number">03</span>
+                        <div class="section-info">
+                            <h3><i class="fas fa-shopping-cart section-icon"></i> OrderOnline Integration</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label class="form-label">Embed Code OrderOnline <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-code input-icon" style="top: 1.5rem;"></i>
+                                <textarea id="orderOnlineEmbed" style="font-family: 'Monaco', monospace;" placeholder="<script src='https://orderonline.id/embed/...'></script>"></textarea>
+                            </div>
+                            <small style="color: var(--gray); margin-top: 0.5rem; display: block;">
+                                <i class="fas fa-info-circle"></i> Copy embed code dari dashboard OrderOnline.id
+                            </small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Nama Toko/Merek <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-store input-icon"></i>
+                                <input type="text" id="storeName" placeholder="Toko Hijab Premium">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Link Logo Toko <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-image input-icon"></i>
+                                <input type="url" id="storeLogo" placeholder="https://example.com/logo.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Design & Style -->
+            <div class="form-section-wrapper">
+                <div class="glass-card">
+                    <div class="section-header">
+                        <span class="section-number">04</span>
+                        <div class="section-info">
+                            <h3><i class="fas fa-palette section-icon"></i> Desain & Gaya</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Skema Warna <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-palette input-icon"></i>
+                                <select id="colorScheme">
+                                    <option value="">Pilih Skema Warna</option>
+                                    <option value="nature">🌿 Hijau Alam (Hutan, Sage, Mint, Bumi)</option>
+                                    <option value="ocean">🌊 Biru Laut (Laut Dalam, Biru Laut, Biru Langit, Buih Laut)</option>
+                                    <option value="sunset">🌅 Hangat Matahari Terbenam (Oranye Dalam, Oranye Hangat, Emas, Merah Muda)</option>
+                                    <option value="luxury">✨ Emas Mewah (Hitam, Arang, Emas, Sampanye)</option>
+                                    <option value="mono">⚫ Mono Minimalis (Hitam, Abu-abu Tua, Abu-abu Muda, Putih)</option>
+                                    <option value="pastel">🌸 Pastel Lembut (Merah Muda Lembut, Lavender, Mint, Persik)</option>
+                                    <option value="islamic">🕌 Teal Islami (Teal Dalam, Hijau Islami, Emas, Krem)</option>
+                                    <option value="earth">🍂 Cokelat Tanah (Cokelat Tua, Cokelat Sedang, Coklat Keemasan, Krem)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Gaya Tata Letak <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-paint-brush input-icon"></i>
+                                <select id="layoutStyle">
+                                    <option value="">Pilih Gaya</option>
+                                    <option value="premium">💎 Kemewahan Premium</option>
+                                    <option value="minimalist">⚡ Modern Minimalis</option>
+                                    <option value="islamic">🕌 Islamic Elegant</option>
+                                    <option value="ecommerce">🛒 E-commerce Klasik</option>
+                                    <option value="fashion">👗 Fashion Forward</option>
+                                    <option value="tech">💻 Tech & Digital</option>
+                                    <option value="natural">🌱 Natural & Organic</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label class="form-label">Link Referensi Desain</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-link input-icon"></i>
+                                <input type="url" id="designReference" placeholder="https://example.com/reference-design">
+                            </div>
+                            <small style="color: var(--gray); margin-top: 0.5rem; display: block;">
+                                <i class="fas fa-info-circle"></i> Masukkan link website referensi untuk nuansa desain yang diinginkan
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Product Recommendations (Optional) -->
+            <div class="form-section-wrapper">
+                <div class="glass-card">
+                    <div class="section-header">
+                        <span class="section-number">05</span>
+                        <div class="section-info">
+                            <h3><i class="fas fa-star section-icon"></i> Rekomendasi Produk (Optional)</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="toggle-wrapper">
+                        <label class="toggle-label">Aktifkan Rekomendasi Produk</label>
+                        <div class="toggle-switch" id="recommendationToggle" onclick="toggleRecommendations()">
+                            <div class="toggle-slider"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="recommendations-section" id="recommendationsSection">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Judul Section</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-heading input-icon"></i>
+                                    <input type="text" id="recommendationTitle" value="🛍️ Rekomendasi Lainnya">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Jumlah Produk</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-list-ol input-icon"></i>
+                                    <select id="productCount" onchange="generateProductFields()">
+                                        <option value="3">3 Produk</option>
+                                        <option value="4">4 Produk</option>
+                                        <option value="6">6 Produk</option>
+                                        <option value="8">8 Produk</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="productFields" style="margin-top: 1.5rem;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 6: Target & Marketing -->
+            <div class="form-section-wrapper">
+                <div class="glass-card">
+                    <div class="section-header">
+                        <span class="section-number">06</span>
+                        <div class="section-info">
+                            <h3><i class="fas fa-bullseye section-icon"></i> Target & Pemasaran</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label class="form-label">Target Audiens <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-users input-icon"></i>
+                                <input type="text" id="targetAudience" placeholder="Contoh: Wanita muslimah usia 20-35 tahun yang aktif dan modern">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label class="form-label">Unique Selling Point <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-star input-icon"></i>
+                                <input type="text" id="uniqueSellingPoint" placeholder="Contoh: Bahan premium dengan teknologi cooling yang nyaman sepanjang hari">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label class="form-label">Catatan Tambahan</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-sticky-note input-icon" style="top: 1.5rem;"></i>
+                                <textarea id="additionalNotes" placeholder="Tambahkan informasi atau permintaan khusus lainnya..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generate Button -->
+            <div class="generate-section">
+                <button type="button" class="generate-button" onclick="generatePrompt()">
+                    <i class="fas fa-magic"></i>
+                    <span>Hasilkan Landing Page Premium</span>
+                </button>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading" id="loadingState">
+                <div class="spinner"></div>
+                <p style="margin-top: 1rem; color: var(--gray);">Sedang menghasilkan prompt premium...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Result Section -->
+    <section class="result-section" id="resultSection">
+        <div class="result-container">
+            <div class="result-header">
+                <i class="fas fa-check-circle success-icon"></i>
+                <h2>Prompt Berhasil Dihasilkan!</h2>
+                <p style="color: var(--gray);">Copy prompt di bawah dan paste ke Claude, ChatGPT, atau AI builder favorit Anda</p>
+            </div>
+            
+            <div class="prompt-output">
+                <button class="copy-button" onclick="copyToClipboard()">
+                    <i class="far fa-copy"></i>
+                    <span>Copy Prompt</span>
+                </button>
+                <div class="prompt-content" id="promptContent"></div>
+            </div>
+            
+            <div class="instructions">
+                <div class="instruction-card">
+                    <i class="fas fa-paste instruction-icon"></i>
+                    <h3>Langkah 1</h3>
+                    <p>Copy prompt yang telah dihasilkan dengan klik tombol copy di atas</p>
+                </div>
+                
+                <div class="instruction-card">
+                    <i class="fas fa-robot instruction-icon"></i>
+                    <h3>Langkah 2</h3>
+                    <p>Buka Claude, ChatGPT, atau AI builder pilihan Anda</p>
+                </div>
+                
+                <div class="instruction-card">
+                    <i class="fas fa-code instruction-icon"></i>
+                    <h3>Langkah 3</h3>
+                    <p>Paste prompt dan tunggu AI menghasilkan landing page premium Anda</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i> <span id="toastMessage">Berhasil!</span>
+    </div>
+
+    <script>
+        // Predefined hijab colors with real images
+        const predefinedHijabColors = [
+            { id: 'broken-white', name: 'Broken White', image: 'https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=400', price: 145000 },
+            { id: 'whisper', name: 'Whisper', image: 'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=400', price: 145000 },
+            { id: 'suede-grey', name: 'Suede Grey', image: 'https://images.unsplash.com/photo-1586716402203-79219bede43c?w=400', price: 145000 },
+            { id: 'truffle', name: 'Truffle', image: 'https://images.unsplash.com/photo-1578932750294-f5075e85f44a?w=400', price: 145000 },
+            { id: 'black', name: 'Black', image: 'https://images.unsplash.com/photo-1590738121067-fdf595ec05d3?w=400', price: 145000 },
+            { id: 'pigeon', name: 'Pigeon', image: 'https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=400', price: 145000 },
+            { id: 'noir', name: 'Noir', image: 'https://images.unsplash.com/photo-1593819954111-dff0e5c54893?w=400', price: 145000 },
+            { id: 'dark-blue', name: 'Dark Blue', image: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=400', price: 145000 }
+        ];
+
+        // Selected colors array
+        let selectedHijabColors = [];
+        let customColors = [];
+
+        // Initialize predefined colors when hijab category is selected
+        function initializePredefinedColors() {
+            const container = document.getElementById('predefinedColors');
+            container.innerHTML = '';
+            
+            predefinedHijabColors.forEach(color => {
+                const colorCard = document.createElement('div');
+                colorCard.className = 'color-card';
+                colorCard.dataset.colorId = color.id;
+                colorCard.onclick = () => toggleColorSelection(color);
+                
+                colorCard.innerHTML = `
+                    <div class="color-preview-box" style="background-image: url('${color.image}')">
+                        <div class="color-name-overlay">${color.name}</div>
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">${color.name}</div>
+                        <div class="color-price">Rp ${color.price.toLocaleString('id-ID')}</div>
+                        <div class="add-to-cart-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(colorCard);
+            });
+        }
+
+        // Toggle color selection
+        function toggleColorSelection(color) {
+            const colorCard = document.querySelector(`[data-color-id="${color.id}"]`);
+            const isSelected = colorCard.classList.contains('selected');
+            
+            if (isSelected) {
+                colorCard.classList.remove('selected');
+                selectedHijabColors = selectedHijabColors.filter(c => c.id !== color.id);
+            } else {
+                colorCard.classList.add('selected');
+                selectedHijabColors.push(color);
+            }
+        }
+
+        // Toggle custom color form
+        function toggleCustomColorForm() {
+            const form = document.getElementById('customColorForm');
+            form.style.display = form.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Add custom color
+        function addCustomColor() {
+            const name = document.getElementById('customColorName').value.trim();
+            const image = document.getElementById('customColorImage').value.trim();
+            const price = document.getElementById('customColorPrice').value || 145000;
+            
+            if (!name || !image) {
+                showToast('Mohon isi nama warna dan link gambar');
+                return;
+            }
+            
+            // Validate URL
+            try {
+                new URL(image);
+            } catch (e) {
+                showToast('Link gambar tidak valid');
+                return;
+            }
+            
+            const customColor = {
+                id: `custom-${Date.now()}`,
+                name: name,
+                image: image,
+                price: parseInt(price),
+                isCustom: true
+            };
+            
+            customColors.push(customColor);
+            renderCustomColors();
+            
+            // Clear form
+            document.getElementById('customColorName').value = '';
+            document.getElementById('customColorImage').value = '';
+            document.getElementById('customColorPrice').value = '';
+            
+            showToast('Warna custom berhasil ditambahkan');
+        }
+
+        // Render custom colors
+        function renderCustomColors() {
+            const container = document.getElementById('customColorsList');
+            container.innerHTML = '';
+            
+            customColors.forEach(color => {
+                const colorItem = document.createElement('div');
+                colorItem.className = 'custom-color-item';
+                colorItem.innerHTML = `
+                    <div class="custom-color-preview" style="background-image: url('${color.image}')"></div>
+                    <div class="custom-color-info">
+                        <div class="custom-color-name">${color.name}</div>
+                        <div class="custom-color-url">Rp ${color.price.toLocaleString('id-ID')}</div>
+                    </div>
+                    <button class="remove-custom-btn" onclick="removeCustomColor('${color.id}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+                container.appendChild(colorItem);
+            });
+        }
+
+        // Remove custom color
+        function removeCustomColor(id) {
+            customColors = customColors.filter(color => color.id !== id);
+            renderCustomColors();
+            showToast('Warna berhasil dihapus');
+        }
+
+        // Category change handler
+        document.getElementById('productCategory').addEventListener('change', function() {
+            const hijabSection = document.getElementById('hijabSection');
+            if (this.value === 'hijab') {
+                hijabSection.classList.add('active');
+                initializePredefinedColors();
+            } else {
+                hijabSection.classList.remove('active');
+                selectedHijabColors = [];
+                customColors = [];
+            }
+        });
+
+        // Toggle recommendations
+        function toggleRecommendations() {
+            const toggle = document.getElementById('recommendationToggle');
+            const section = document.getElementById('recommendationsSection');
+            
+            toggle.classList.toggle('active');
+            section.classList.toggle('active');
+            
+            if (toggle.classList.contains('active')) {
+                generateProductFields();
+            }
+        }
+
+        // Generate product fields
+        function generateProductFields() {
+            const count = parseInt(document.getElementById('productCount').value);
+            const container = document.getElementById('productFields');
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= count; i++) {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="product-header">
+                        <h4>Produk ${i}</h4>
+                        <span class="product-number">#${i}</span>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Nama Produk</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-tag input-icon"></i>
+                                <input type="text" id="recProduct${i}Name" placeholder="Nama produk rekomendasi">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Harga</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-dollar-sign input-icon"></i>
+                                <input type="number" id="recProduct${i}Price" placeholder="199000">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Link Landing Page</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-link input-icon"></i>
+                                <input type="url" id="recProduct${i}Link" placeholder="https://example.com/product">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Link Gambar</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-image input-icon"></i>
+                                <input type="url" id="recProduct${i}Image" placeholder="https://example.com/image.jpg">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Badge</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-certificate input-icon"></i>
+                                <select id="recProduct${i}Badge">
+                                    <option value="">Tanpa Badge</option>
+                                    <option value="stok-menipis">Stok Menipis</option>
+                                    <option value="best-seller">Best Seller</option>
+                                    <option value="new">New</option>
+                                    <option value="diskon">Diskon</option>
+                                    <option value="limited">Limited</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(productCard);
+            }
+        }
+
+        // Form validation
+        function validateForm() {
+            const required = [
+                'productName',
+                'productCategory',
+                'originalPrice',
+                'productDescription',
+                'mainImage',
+                'orderOnlineEmbed',
+                'storeName',
+                'storeLogo',
+                'colorScheme',
+                'layoutStyle',
+                'targetAudience',
+                'uniqueSellingPoint'
+            ];
+            
+            for (let field of required) {
+                const element = document.getElementById(field);
+                if (!element.value.trim()) {
+                    element.focus();
+                    showToast('Mohon lengkapi semua field yang wajib diisi');
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        // Generate prompt
+        function generatePrompt() {
+            if (!validateForm()) return;
+            
+            // Show loading
+            document.getElementById('loadingState').classList.add('active');
+            
+            // Collect form data
+            const formData = {
+                productName: document.getElementById('productName').value,
+                productCategory: document.getElementById('productCategory').value,
+                originalPrice: document.getElementById('originalPrice').value,
+                discountPrice: document.getElementById('discountPrice').value,
+                productDescription: document.getElementById('productDescription').value,
+                mainImage: document.getElementById('mainImage').value,
+                videoDemo: document.getElementById('videoDemo').value,
+                gifAnimation: document.getElementById('gifAnimation').value,
+                productGallery: document.getElementById('productGallery').value,
+                orderOnlineEmbed: document.getElementById('orderOnlineEmbed').value,
+                storeName: document.getElementById('storeName').value,
+                storeLogo: document.getElementById('storeLogo').value,
+                colorScheme: document.getElementById('colorScheme').value,
+                layoutStyle: document.getElementById('layoutStyle').value,
+                designReference: document.getElementById('designReference').value,
+                targetAudience: document.getElementById('targetAudience').value,
+                uniqueSellingPoint: document.getElementById('uniqueSellingPoint').value,
+                additionalNotes: document.getElementById('additionalNotes').value
+            };
+            
+            // Add hijab specific data if category is hijab
+            if (formData.productCategory === 'hijab') {
+                formData.hijabStyle = document.getElementById('hijabStyle').value;
+                formData.selectedColors = selectedHijabColors;
+                formData.customColors = customColors;
+            }
+            
+            // Add recommendations if enabled
+            const recommendationToggle = document.getElementById('recommendationToggle');
+            if (recommendationToggle.classList.contains('active')) {
+                formData.recommendationTitle = document.getElementById('recommendationTitle').value;
+                formData.productCount = document.getElementById('productCount').value;
+                formData.recommendations = [];
+                
+                for (let i = 1; i <= parseInt(formData.productCount); i++) {
+                    const product = {
+                        name: document.getElementById(`recProduct${i}Name`).value,
+                        price: document.getElementById(`recProduct${i}Price`).value,
+                        link: document.getElementById(`recProduct${i}Link`).value,
+                        image: document.getElementById(`recProduct${i}Image`).value,
+                        badge: document.getElementById(`recProduct${i}Badge`).value
+                    };
+                    if (product.name) {
+                        formData.recommendations.push(product);
+                    }
+                }
+            }
+            
+            // Generate the prompt
+            const prompt = generatePromptText(formData);
+            
+            // Simulate processing delay
+            setTimeout(() => {
+                document.getElementById('loadingState').classList.remove('active');
+                document.getElementById('promptContent').textContent = prompt;
+                document.getElementById('resultSection').classList.add('active');
+                
+                // Scroll to result
+                document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
+                
+                // Show success effect
+                showCelebration();
+            }, 2000);
+        }
+
+        // Generate prompt text
+        function generatePromptText(data) {
+            const colorSchemes = {
+                'nature': 'Hijau Hutan (#1a3b1a), Hijau Sage (#87a96b), Mint (#a8d8a8), Cokelat Tanah (#6b5b47), Aksen Emas (#d4af37)',
+                'ocean': 'Biru Laut Dalam (#003366), Biru Laut (#0066cc), Biru Langit (#87ceeb), Putih Buih (#f0f8ff), Aksen Coral (#ff6b6b)',
+                'sunset': 'Oranye Dalam (#ff6600), Oranye Hangat (#ff9933), Emas (#ffd700), Merah Muda Sunset (#ff69b4), Aksen Ungu (#9370db)',
+                'luxury': 'Hitam (#000000), Abu Arang (#36454f), Emas (#d4af37), Sampanye (#f7e7ce), Aksen Putih (#ffffff)',
+                'mono': 'Hitam (#000000), Abu-abu Tua (#4a4a4a), Abu-abu Muda (#9a9a9a), Putih (#ffffff), Aksen Silver (#c0c0c0)',
+                'pastel': 'Pink Lembut (#ffb3ba), Lavender (#e6e6fa), Mint Pastel (#b3ffb3), Peach (#ffdab9), Aksen Putih (#ffffff)',
+                'islamic': 'Teal Dalam (#004d4d), Hijau Islami (#009688), Emas (#d4af37), Krem (#f5f5dc), Aksen Putih (#ffffff)',
+                'earth': 'Cokelat Tua (#654321), Cokelat Medium (#8b4513), Tan (#d2691e), Krem (#f5f5dc), Aksen Hijau Sage (#87a96b)'
+            };
+            
+            const layoutStyles = {
+                'premium': 'Desain mewah dengan whitespace yang luas, tipografi elegan, efek glassmorphism, animasi halus, dan elemen premium',
+                'minimalist': 'Layout clean dan modern dengan fokus pada konten, navigasi simpel, warna monokromatik, dan micro-interactions',
+                'islamic': 'Desain islami elegan dengan ornamen geometric, kaligrafi modern, warna teal-gold, dan nuansa spiritual',
+                'ecommerce': 'Layout e-commerce klasik dengan product showcase yang jelas, CTA prominent, trust badges, dan conversion-focused',
+                'fashion': 'Desain fashion-forward dengan visual storytelling, layout magazine-style, typography bold, dan efek parallax',
+                'tech': 'Layout tech modern dengan gradien futuristik, animasi code-style, dark mode option, dan elemen cyberpunk',
+                'natural': 'Desain natural organic dengan tekstur alami, warna earth-tone, ilustrasi botanical, dan nuansa eco-friendly'
+            };
+            
+            let prompt = `Buatkan landing page premium yang sangat menarik dan conversion-optimized untuk "${data.productName}" dengan spesifikasi lengkap berikut:
+
+🎯 INFORMASI PRODUK:
+- Nama Produk: ${data.productName}
+- Kategori: ${data.productCategory}
+- Harga Asli: Rp ${parseInt(data.originalPrice).toLocaleString('id-ID')}
+${data.discountPrice ? `- Harga Diskon: Rp ${parseInt(data.discountPrice).toLocaleString('id-ID')}` : ''}
+- Deskripsi: ${data.productDescription}
+- Target Audiens: ${data.targetAudience}
+- USP: ${data.uniqueSellingPoint}
+- Nama Toko: ${data.storeName}
+- Logo Toko: ${data.storeLogo}
+${data.additionalNotes ? `- Catatan Tambahan: ${data.additionalNotes}` : ''}
+
+🎨 DESAIN & VISUAL PREMIUM:
+- Skema Warna: ${colorSchemes[data.colorScheme]}
+- Gaya Tata Letak: ${layoutStyles[data.layoutStyle]}
+${data.designReference ? `- Referensi Desain: ${data.designReference}
+  PENTING: Tiru nuansa warna dan tampilan dari website referensi ini untuk menghasilkan desain yang sesuai keinginan user` : ''}
+- Gambar Utama: ${data.mainImage}
+${data.videoDemo ? `- Video Demo: ${data.videoDemo}` : ''}
+${data.gifAnimation ? `- GIF Animasi: ${data.gifAnimation}` : ''}
+${data.productGallery ? `- Galeri Produk:\n${data.productGallery.split('\n').map(url => `  • ${url.trim()}`).join('\n')}` : ''}`;
+
+            // Add hijab specific section if category is hijab
+            if (data.productCategory === 'hijab') {
+                prompt += `\n\n🧕 PENGATURAN KHUSUS HIJAB:`;
+                if (data.hijabStyle) {
+                    prompt += `\n- Style Hijab: ${data.hijabStyle}`;
+                }
+                
+                // Add selected predefined colors
+                if (data.selectedColors && data.selectedColors.length > 0) {
+                    prompt += `\n- Warna Tersedia:`;
+                    data.selectedColors.forEach(color => {
+                        prompt += `\n  • ${color.name}: ${color.image} (Rp ${color.price.toLocaleString('id-ID')})`;
+                    });
+                }
+                
+                // Add custom colors
+                if (data.customColors && data.customColors.length > 0) {
+                    prompt += `\n- Warna Custom:`;
+                    data.customColors.forEach(color => {
+                        prompt += `\n  • ${color.name}: ${color.image} (Rp ${color.price.toLocaleString('id-ID')})`;
+                    });
+                }
+                
+                prompt += `\n\nIMPORTAN untuk tampilan warna hijab:
+- Buat grid warna yang menarik seperti website hijab modern
+- Setiap warna tampilkan dengan foto produk yang sesuai
+- Hover effect untuk preview detail
+- Sistem pemilihan warna yang interaktif
+- Mobile responsive dengan swiper/carousel`;
+            }
+
+            prompt += `\n\n🛒 ORDERONLINE INTEGRATION PREMIUM:
+KRITIS: Integrasikan formulir pemesanan dengan styling premium:
+${data.orderOnlineEmbed}
+
+Persyaratan Styling OrderOnline:
+- Form terintegrasi mulus dengan desain keseluruhan
+- Background dengan gradient matching tema
+- Efek glassmorphism dengan backdrop blur
+- Custom CSS untuk override default styles
+- Border radius konsisten dengan desain
+- Padding premium untuk breathing space
+- Font family konsisten dengan landing page
+- Warna button sesuai skema warna pilihan
+- Hover effects yang smooth
+- Mobile responsive sempurna`;
+
+            // Add recommendations if enabled
+            if (data.recommendations && data.recommendations.length > 0) {
+                prompt += `\n\n🛍️ REKOMENDASI PRODUK:
+- Judul Section: ${data.recommendationTitle}
+- Layout: Grid card premium dengan efek hover
+- Jumlah Produk: ${data.recommendations.length}
+
+Produk Rekomendasi:`;
+                data.recommendations.forEach((product, index) => {
+                    prompt += `\n\nProduk ${index + 1}:
+- Nama: ${product.name}
+- Harga: Rp ${parseInt(product.price).toLocaleString('id-ID')}
+- Link: ${product.link}
+- Gambar: ${product.image}`;
+                    if (product.badge) {
+                        prompt += `\n- Badge: ${product.badge}`;
+                    }
+                });
+            }
+
+            prompt += `\n\n📱 STRUKTUR LANDING PAGE PREMIUM:
+
+1. HERO SECTION PREMIUM
+   - Full height dengan overlay gradient
+   - Background image/video yang eye-catching
+   - Headline powerful dengan Playfair Display
+   - Subheadline yang menjelaskan value proposition
+   - CTA button prominent dengan animasi
+   - Trust badges (Garansi, Free Ongkir, dll)
+
+2. PRODUCT SHOWCASE
+   - Gallery dengan lightbox effect
+   - 360° view atau multiple angles
+   - Zoom on hover functionality
+   - Video demo terintegrasi
+   ${data.gifAnimation ? `- GIF animasi produk terintegrasi` : ''}
+   - Quick features highlight
+   ${data.productCategory === 'hijab' ? `- Section "Pilihan Warna" yang menarik dengan grid layout` : ''}
+
+3. BENEFITS & FEATURES
+   - Icon-based feature grid
+   - Animated counters untuk statistik
+   - Before/after comparison (jika applicable)
+   - Unique selling points dengan visual
+
+4. SOCIAL PROOF SECTION
+   - Testimonial carousel dengan foto
+   - Rating bintang prominent
+   - Media mentions/awards
+   - User-generated content gallery
+   - Live visitor/purchase counter
+
+5. PRICING & PROMO
+   - Harga dengan strikethrough untuk diskon
+   - Countdown timer untuk urgency
+   - Bundle offers (jika ada)
+   - Garansi dan jaminan
+   - Payment method logos
+
+6. ORDER FORM PREMIUM
+   - OrderOnline form dengan custom styling
+   - Logo toko di bagian atas form
+   - Progress indicator
+   - Form validation real-time
+   - WhatsApp quick order button (optional)
+   - Security badges
+
+${data.recommendations ? `7. PRODUCT RECOMMENDATIONS
+   - Carousel/grid layout
+   - Quick add to cart
+   - Product comparison
+   - Related items algorithm
+   
+8. FOOTER PREMIUM` : '7. FOOTER PREMIUM'}
+   - Company information
+   - Quick links
+   - Social media integration
+   - Newsletter signup
+   - Copyright & policies
+
+🔧 FITUR TEKNIS PREMIUM:
+
+TYPOGRAPHY:
+- Heading: Playfair Display (400-900 weight)
+- Body: Inter (300-700 weight)
+- Hierarchy yang jelas dan konsisten
+- Responsive font sizing dengan clamp()
+
+EFFECTS & ANIMATIONS:
+- Smooth scroll behavior
+- Parallax scrolling untuk depth
+- Reveal animations on scroll (AOS/GSAP)
+- Hover effects pada semua interactive elements
+- Loading animations yang smooth
+- Micro-interactions pada buttons/forms
+
+PERFORMANCE:
+- Lazy loading untuk images
+- WebP format dengan fallback
+- Minified CSS/JS
+- Optimized above-the-fold content
+- PWA ready dengan offline support
+
+CONVERSION OPTIMIZATION:
+- Exit-intent popup
+- Sticky CTA button saat scroll
+- Live chat integration
+- A/B testing ready structure
+- Analytics tracking setup
+- Heatmap compatible markup
+
+RESPONSIVE DESIGN:
+- Mobile-first approach
+- Touch-friendly interactions
+- Hamburger menu yang smooth
+- Optimized images untuk mobile
+- Accelerated Mobile Pages (AMP) ready
+
+SEO OPTIMIZATION:
+- Schema markup lengkap
+- Meta tags comprehensive
+- Open Graph tags
+- Twitter Card tags
+- Sitemap XML
+- Robots.txt optimization
+
+KODE STRUKTUR:
+- Semantic HTML5
+- CSS Grid & Flexbox modern
+- Vanilla JS atau framework modern
+- Progressive enhancement
+- Accessibility WCAG 2.1 AA compliant
+
+BONUS FEATURES:
+- Dark mode toggle
+- Multi-language support ready
+- GDPR compliance banner
+- Social share buttons
+- Print-friendly version
+- QR code untuk mobile payment
+
+${data.additionalNotes ? `\nCATATAN KHUSUS DARI USER:\n${data.additionalNotes}` : ''}
+
+FINAL INSTRUCTION:
+Buatkan landing page dengan kode HTML, CSS, dan JavaScript yang:
+1. Production-ready dan bug-free
+2. Pixel-perfect sesuai spesifikasi desain
+3. ${data.designReference ? `WAJIB meniru nuansa dan style dari website referensi yang diberikan` : 'Mengikuti design system yang dipilih'}
+4. Performance score 90+ di Google PageSpeed
+5. Conversion rate optimization best practices
+6. Siap deploy tanpa perlu editing
+7. Mobile responsive sempurna
+
+${data.productCategory === 'hijab' ? `
+KHUSUS UNTUK PRODUK HIJAB:
+- Section pilihan warna HARUS seperti contoh website hijab modern
+- Grid layout 4 kolom di desktop, 2 kolom di mobile
+- Setiap warna punya card sendiri dengan foto produk
+- Sistem pemilihan warna yang user-friendly
+- Integrasi dengan form pemesanan` : ''}
+
+Hasilkan kode lengkap yang bisa langsung di-copy dan digunakan! 🚀`;
+
+            return prompt;
+        }
+
+        // Copy to clipboard
+        function copyToClipboard() {
+            const promptContent = document.getElementById('promptContent').textContent;
+            
+            navigator.clipboard.writeText(promptContent).then(() => {
+                const copyButton = document.querySelector('.copy-button');
+                copyButton.classList.add('copied');
+                copyButton.innerHTML = '<i class="fas fa-check"></i> <span>Copied!</span>';
+                
+                showToast('Prompt berhasil dicopy!');
+                
+                setTimeout(() => {
+                    copyButton.classList.remove('copied');
+                    copyButton.innerHTML = '<i class="far fa-copy"></i> <span>Copy Prompt</span>';
+                }, 3000);
+            }).catch(err => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = promptContent;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                showToast('Prompt berhasil dicopy!');
+            });
+        }
+
+        // Show toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Show celebration effect
+        function showCelebration() {
+            // Create confetti effect
+            const colors = ['#87a96b', '#a8d8a8', '#d4af37', '#1a3b1a'];
+            const confettiCount = 50;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '-10px';
+                confetti.style.opacity = Math.random() + 0.5;
+                confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+                confetti.style.pointerEvents = 'none';
+                confetti.style.zIndex = '9999';
+                
+                document.body.appendChild(confetti);
+                
+                // Animate
+                const duration = Math.random() * 3 + 2;
+                const delay = Math.random() * 0.5;
+                
+                confetti.animate([
+                    {
+                        transform: `translateY(0) rotate(${Math.random() * 360}deg)`,
+                        opacity: 1
+                    },
+                    {
+                        transform: `translateY(${window.innerHeight + 100}px) rotate(${Math.random() * 720}deg)`,
+                        opacity: 0
+                    }
+                ], {
+                    duration: duration * 1000,
+                    delay: delay * 1000,
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                }).onfinish = () => confetti.remove();
+            }
+        }
+
+        // Save form data to localStorage
+        function saveFormData() {
+            const formData = {
+                productName: document.getElementById('productName').value,
+                productCategory: document.getElementById('productCategory').value,
+                originalPrice: document.getElementById('originalPrice').value,
+                discountPrice: document.getElementById('discountPrice').value,
+                productDescription: document.getElementById('productDescription').value,
+                mainImage: document.getElementById('mainImage').value,
+                videoDemo: document.getElementById('videoDemo').value,
+                productGallery: document.getElementById('productGallery').value,
+                orderOnlineEmbed: document.getElementById('orderOnlineEmbed').value,
+                storeName: document.getElementById('storeName').value,
+                whatsappNumber: document.getElementById('whatsappNumber').value,
+                colorScheme: document.getElementById('colorScheme').value,
+                layoutStyle: document.getElementById('layoutStyle').value,
+                targetAudience: document.getElementById('targetAudience').value,
+                uniqueSellingPoint: document.getElementById('uniqueSellingPoint').value,
+                additionalNotes: document.getElementById('additionalNotes').value,
+                selectedHijabColors: selectedHijabColors,
+                customColors: customColors
+            };
+            
+            localStorage.setItem('landingPageFormData', JSON.stringify(formData));
+        }
+
+        // Load form data from localStorage
+        function loadFormData() {
+            const savedData = localStorage.getItem('landingPageFormData');
+            if (savedData) {
+                try {
+                    const formData = JSON.parse(savedData);
+                    
+                    // Restore form values
+                    Object.keys(formData).forEach(key => {
+                        const element = document.getElementById(key);
+                        if (element && key !== 'selectedHijabColors' && key !== 'customColors') {
+                            element.value = formData[key];
+                        }
+                    });
+                    
+                    // Restore hijab colors if category is hijab
+                    if (formData.productCategory === 'hijab') {
+                        document.getElementById('hijabSection').classList.add('active');
+                        initializePredefinedColors();
+                        
+                        // Restore selected colors
+                        if (formData.selectedHijabColors) {
+                            selectedHijabColors = formData.selectedHijabColors;
+                            selectedHijabColors.forEach(color => {
+                                const card = document.querySelector(`[data-color-id="${color.id}"]`);
+                                if (card) card.classList.add('selected');
+                            });
+                        }
+                        
+                        // Restore custom colors
+                        if (formData.customColors) {
+                            customColors = formData.customColors;
+                            renderCustomColors();
+                        }
+                    }
+                    
+                } catch (e) {
+                    console.error('Error loading saved data:', e);
+                }
+            }
+        }
+
+        // Auto-save form data
+        let saveTimeout;
+        document.addEventListener('input', function(e) {
+            if (e.target.matches('input, select, textarea')) {
+                clearTimeout(saveTimeout);
+                saveTimeout = setTimeout(saveFormData, 1000);
+            }
+        });
+
+        // Load saved data on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            loadFormData();
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Progress indicator on scroll
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const maxHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrolled / maxHeight) * 100;
+            
+            // Update progress bar if you add one
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards
+        document.querySelectorAll('.glass-card, .feature-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.6s ease-out';
+            observer.observe(card);
+        });
+    </script>
 </body>
 </html>
