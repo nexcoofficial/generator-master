@@ -2,39 +2,67 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #1f4037, #99f2c8);
+      color: #fff;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dashboard-box {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 30px 40px;
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      text-align: center;
+    }
+
+    .dashboard-box h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .dashboard-box p {
+      margin-bottom: 20px;
+      font-size: 1rem;
+      color: #d1f7e3;
+    }
+
+    .dashboard-btns a {
+      text-decoration: none;
+      margin: 0 10px;
+      padding: 10px 20px;
+      background: #00b894;
+      color: #fff;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background 0.2s ease;
+    }
+
+    .dashboard-btns a:hover {
+      background: #019875;
+    }
+  </style>
 </head>
 <body>
-  <div class="login-box">
-    <h2>Login</h2>
-    <form onsubmit="return fakeLogin(event)">
-      <div class="input-box">
-        <input type="text" placeholder="Username" required id="username">
-        <i class="fas fa-user"></i>
-      </div>
-      <div class="input-box">
-        <input type="password" placeholder="Password" required id="password">
-        <i class="fas fa-lock"></i>
-      </div>
-      <div class="options">
-        <label><input type="checkbox"> Remember Me</label>
-        <a href="#">Forgot Password?</a>
-      </div>
-      <button type="submit" class="login-btn">Login</button>
-      <div class="register-link">
-        Don't have an account? <a href="register.html">Register</a>
-      </div>
-    </form>
+  <div class="dashboard-box">
+    <h1>Welcome!</h1>
+    <p>You have successfully logged in to LP Master Generator.</p>
+    <div class="dashboard-btns">
+      <a href="home.html">Go to Homepage</a>
+      <a href="login.html">Logout</a>
+    </div>
   </div>
-  <script>
-    function fakeLogin(e) {
-      e.preventDefault();
-      alert("Login berhasil!\n(Tapi ini hanya simulasi HTML)");
-      window.location.href = "dashboard.html";
-      return false;
-    }
-  </script>
 </body>
 </html>
