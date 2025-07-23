@@ -1,38 +1,4 @@
-// Add hijab specific section if category is hijab
-            if (data.productCategory === 'hijab') {
-                prompt += `\n\n🧕 PENGATURAN KHUSUS HIJAB:`;
-                if (data.hijabStyle) {
-                    prompt += `\n- Style Hijab: ${data.hijabStyle}`;
-                }
-                
-                // Add selected predefined colors
-                if (data.selectedColors && data.selectedColors.length > 0) {
-                    prompt += `\n- Warna Tersedia:`;
-                    data.selectedColors.forEach(color => {
-                        prompt += `\n  • ${color.name}: ${color.image} (Rp ${color.price.toLocaleString('id-ID')})`;
-                    });
-                }
-                
-                // Add custom colors
-                if (data.customColors && data.customColors.length > 0) {
-                    prompt += `\n- Warna Custom:`;
-                    data.customColors.forEach(color => {
-                        prompt += `\n  • ${color.name}: ${color.image} (Rp ${color.price.toLocaleString('id-ID')})`;
-                    });
-                }
-                
-                prompt += `\n\nIMPORTAN untuk tampilan warna hijab:
-- Buat section "Pilihan Warna" dengan header yang menarik
-- Tampilkan grid 4 kolom untuk desktop, 2 kolom untuk mobile
-- Setiap card warna berisi:
-  * Foto produk hijab dengan warna tersebut (full image)
-  * Nama warna di overlay putih transparan di bagian bawah foto
-  * Harga di bagian bawah card
-  * Icon keranjang di pojok kanan bawah
-  * Hover effect zoom in pada gambar
-- Tambahkan tombol "Lihat Semua Warna" jika ada banyak warna
-- Integrasikan dengan sistem pemilihan warna di form order`;
-            }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -202,7 +168,7 @@
 
         /* Features Section */
         .features {
-            padding: 3rem 0;
+            padding: 5rem 0;
             background: var(--white);
         }
 
@@ -214,16 +180,15 @@
 
         .section-title {
             text-align: center;
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: var(--forest);
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
         }
 
         .section-subtitle {
             text-align: center;
             color: var(--gray);
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
+            margin-bottom: 3rem;
         }
 
         .features-grid {
@@ -414,213 +379,91 @@
             text-align: center;
         }
 
-        /* Predefined Colors Grid */
-        .predefined-colors {
-            margin-bottom: 2rem;
-        }
-
-        .colors-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .color-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            position: relative;
-            border: 2px solid transparent;
-        }
-
-        .color-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .color-card.selected {
-            border-color: var(--sage);
-        }
-
-        .color-preview-box {
-            width: 100%;
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-
-        .color-name-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            padding: 0.5rem;
-            font-weight: 500;
-            color: #333;
-            font-size: 0.9rem;
-        }
-
-        .color-info {
-            padding: 0.75rem;
-            background: white;
-        }
-
-        .color-name {
-            font-weight: 600;
-            color: #333;
-            font-size: 0.95rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .color-price {
-            font-size: 0.85rem;
-            color: #666;
-        }
-
-        .add-to-cart-icon {
-            position: absolute;
-            bottom: 0.75rem;
-            right: 0.75rem;
-            width: 32px;
-            height: 32px;
-            background: #f3f4f6;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            transition: all 0.3s ease;
-        }
-
-        .color-card:hover .add-to-cart-icon {
-            background: var(--sage);
-            color: white;
-        }
-
         /* Custom Color Input */
-        .custom-color-section {
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 8px;
+        .custom-color-container {
+            display: none;
+            margin-top: 1rem;
             padding: 1.5rem;
-            margin-top: 2rem;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
         }
 
-        .custom-color-header {
-            margin-bottom: 1rem;
+        .custom-color-container.active {
+            display: block;
         }
 
-        .custom-color-header h4 {
-            color: #333;
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .add-custom-btn {
-            float: right;
-            padding: 0.6rem 1.2rem;
-            background: var(--sage);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .add-custom-btn:hover {
-            background: var(--forest);
-            transform: translateY(-1px);
-        }
-
-        .custom-color-form {
-            margin-top: 1rem;
-            clear: both;
-        }
-
-        .custom-color-form .form-grid {
+        .color-input-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1rem;
+            margin-bottom: 1rem;
         }
 
-        .custom-color-form input {
-            padding: 0.75rem 1rem;
-            font-size: 0.95rem;
-        }
-
-        .save-color-btn {
-            margin-top: 1rem;
+        .add-color-btn {
             padding: 0.75rem 1.5rem;
-            background: var(--forest);
+            background: var(--sage);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 600;
         }
 
-        .save-color-btn:hover {
-            background: var(--sage);
+        .add-color-btn:hover {
+            background: var(--forest);
+            transform: translateY(-2px);
         }
 
-        .custom-colors-list {
+        .color-list {
             margin-top: 1rem;
         }
 
-        .custom-color-item {
+        .color-item {
             display: flex;
             align-items: center;
-            background: white;
+            justify-content: space-between;
             padding: 1rem;
+            background: white;
             border-radius: 8px;
             margin-bottom: 0.5rem;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        .custom-color-preview {
-            width: 50px;
-            height: 50px;
+        .color-preview {
+            width: 40px;
+            height: 40px;
             border-radius: 8px;
+            border: 2px solid var(--light-gray);
             margin-right: 1rem;
-            background-size: cover;
-            background-position: center;
-            border: 1px solid var(--light-gray);
         }
 
-        .custom-color-info {
+        .color-info {
             flex: 1;
         }
 
-        .custom-color-name {
+        .color-name {
             font-weight: 600;
             color: var(--forest);
         }
 
-        .custom-color-url {
-            font-size: 0.8rem;
+        .color-image-url {
+            font-size: 0.875rem;
             color: var(--gray);
             word-break: break-all;
         }
 
-        .remove-custom-btn {
-            padding: 0.4rem 0.8rem;
+        .remove-color-btn {
+            padding: 0.5rem;
             background: #ef4444;
             color: white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.8rem;
         }
 
-        .remove-custom-btn:hover {
+        .remove-color-btn:hover {
             background: #dc2626;
         }
 
@@ -894,15 +737,6 @@
             input, select, textarea {
                 padding: 0.875rem 0.875rem 0.875rem 2.5rem;
             }
-            
-            .colors-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.75rem;
-            }
-            
-            .color-preview-box {
-                height: 150px;
-            }
         }
 
         /* Notification Toast */
@@ -951,7 +785,39 @@
         </div>
     </section>
 
-    <!-- Features Section (Removed as requested) -->
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Fitur Unggulan</h2>
+            <p class="section-subtitle">Teknologi AI terdepan untuk landing page yang sempurna</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI-Powered</h3>
+                    <p>Generate prompt berkualitas tinggi dengan teknologi AI terkini</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Fully Responsive</h3>
+                    <p>Landing page sempurna di semua perangkat dan ukuran layar</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Conversion Optimized</h3>
+                    <p>Dioptimalkan untuk konversi maksimal dan ROI terbaik</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Main Form Section -->
     <section class="form-section" id="generator">
@@ -1028,7 +894,23 @@
                         <h4 class="hijab-title">🧕 Pengaturan Khusus Hijab</h4>
                         
                         <div class="form-grid">
-                            <div class="form-group full-width">
+                            <div class="form-group">
+                                <label class="form-label">Warna Hijab</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-palette input-icon"></i>
+                                    <select id="hijabColor">
+                                        <option value="">Pilih Warna</option>
+                                        <option value="black">Black</option>
+                                        <option value="white">White</option>
+                                        <option value="navy">Navy</option>
+                                        <option value="brown">Brown</option>
+                                        <option value="grey">Grey</option>
+                                        <option value="custom">Custom (Tambah Warna Sendiri)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
                                 <label class="form-label">Style Hijab</label>
                                 <div class="input-wrapper">
                                     <i class="fas fa-tshirt input-icon"></i>
@@ -1045,44 +927,24 @@
                             </div>
                         </div>
 
-                        <!-- Predefined Colors -->
-                        <div class="predefined-colors">
-                            <h5 style="margin-bottom: 1rem; color: #333; font-weight: 600;">Pilih Warna Hijab</h5>
-                            <div class="colors-grid" id="predefinedColors">
-                                <!-- Predefined colors will be generated here -->
-                            </div>
-                        </div>
-
-                        <!-- Custom Colors Section -->
-                        <div class="custom-color-section">
-                            <div class="custom-color-header">
-                                <h4>Warna Custom</h4>
-                                <button type="button" class="add-custom-btn" onclick="toggleCustomColorForm()">
-                                    <i class="fas fa-plus"></i> Tambah Warna
-                                </button>
-                            </div>
-                            
-                            <div class="custom-color-form" id="customColorForm">
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label class="form-label">Nama Warna</label>
-                                        <input type="text" id="customColorName" placeholder="Contoh: Dusty Pink">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Link Gambar</label>
-                                        <input type="url" id="customColorImage" placeholder="https://example.com/hijab-dusty-pink.jpg">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Harga (optional)</label>
-                                        <input type="number" id="customColorPrice" placeholder="145000">
-                                    </div>
+                        <!-- Custom Color Container -->
+                        <div class="custom-color-container" id="customColorContainer">
+                            <h5 style="margin-bottom: 1rem; color: var(--forest);">Tambah Warna Custom</h5>
+                            <div class="color-input-group">
+                                <div class="form-group">
+                                    <label class="form-label">Nama Warna</label>
+                                    <input type="text" id="customColorName" placeholder="Contoh: Dusty Pink">
                                 </div>
-                                <button type="button" class="save-color-btn" onclick="addCustomColor()">
-                                    <i class="fas fa-check"></i> Simpan Warna
-                                </button>
+                                <div class="form-group">
+                                    <label class="form-label">Link Gambar Hijab</label>
+                                    <input type="url" id="customColorImage" placeholder="https://example.com/hijab-dusty-pink.jpg">
+                                </div>
                             </div>
+                            <button type="button" class="add-color-btn" onclick="addCustomColor()">
+                                <i class="fas fa-plus"></i> Tambah Warna
+                            </button>
                             
-                            <div class="custom-colors-list" id="customColorsList" style="margin-top: 1rem;"></div>
+                            <div class="color-list" id="colorList"></div>
                         </div>
                     </div>
                 </div>
@@ -1112,14 +974,6 @@
                             <div class="input-wrapper">
                                 <i class="fas fa-video input-icon"></i>
                                 <input type="url" id="videoDemo" placeholder="https://youtube.com/watch?v=...">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group full-width">
-                            <label class="form-label">Link GIF Animasi</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-film input-icon"></i>
-                                <input type="url" id="gifAnimation" placeholder="https://example.com/animation.gif">
                             </div>
                         </div>
                         
@@ -1165,10 +1019,10 @@
                         </div>
                         
                         <div class="form-group">
-                            <label class="form-label">Link Logo Toko <span class="required">*</span></label>
+                            <label class="form-label">Nomor WhatsApp <span class="required">*</span></label>
                             <div class="input-wrapper">
-                                <i class="fas fa-image input-icon"></i>
-                                <input type="url" id="storeLogo" placeholder="https://example.com/logo.png">
+                                <i class="fab fa-whatsapp input-icon"></i>
+                                <input type="tel" id="whatsappNumber" placeholder="628123456789">
                             </div>
                         </div>
                     </div>
@@ -1219,17 +1073,6 @@
                                     <option value="natural">🌱 Natural & Organic</option>
                                 </select>
                             </div>
-                        </div>
-                        
-                        <div class="form-group full-width">
-                            <label class="form-label">Link Referensi Desain</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-link input-icon"></i>
-                                <input type="url" id="designReference" placeholder="https://example.com/reference-design">
-                            </div>
-                            <small style="color: var(--gray); margin-top: 0.5rem; display: block;">
-                                <i class="fas fa-info-circle"></i> Masukkan link website referensi untuk nuansa desain yang diinginkan
-                            </small>
                         </div>
                     </div>
                 </div>
@@ -1380,149 +1223,93 @@
     </div>
 
     <script>
-        // Predefined hijab colors with real images
-        const predefinedHijabColors = [
-            { id: 'broken-white', name: 'Broken White', image: 'https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=400', price: 145000 },
-            { id: 'whisper', name: 'Whisper', image: 'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=400', price: 145000 },
-            { id: 'suede-grey', name: 'Suede Grey', image: 'https://images.unsplash.com/photo-1586716402203-79219bede43c?w=400', price: 145000 },
-            { id: 'truffle', name: 'Truffle', image: 'https://images.unsplash.com/photo-1578932750294-f5075e85f44a?w=400', price: 145000 },
-            { id: 'black', name: 'Black', image: 'https://images.unsplash.com/photo-1590738121067-fdf595ec05d3?w=400', price: 145000 },
-            { id: 'pigeon', name: 'Pigeon', image: 'https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=400', price: 145000 },
-            { id: 'noir', name: 'Noir', image: 'https://images.unsplash.com/photo-1593819954111-dff0e5c54893?w=400', price: 145000 },
-            { id: 'dark-blue', name: 'Dark Blue', image: 'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=400', price: 145000 }
-        ];
-
-        // Selected colors array
-        let selectedHijabColors = [];
+        // Custom color management
         let customColors = [];
-
-        // Initialize predefined colors when hijab category is selected
-        function initializePredefinedColors() {
-            const container = document.getElementById('predefinedColors');
-            container.innerHTML = '';
-            
-            predefinedHijabColors.forEach(color => {
-                const colorCard = document.createElement('div');
-                colorCard.className = 'color-card';
-                colorCard.dataset.colorId = color.id;
-                colorCard.onclick = () => toggleColorSelection(color);
-                
-                colorCard.innerHTML = `
-                    <div class="color-preview-box" style="background-image: url('${color.image}')">
-                        <div class="color-name-overlay">${color.name}</div>
-                    </div>
-                    <div class="color-info">
-                        <div class="color-name">${color.name}</div>
-                        <div class="color-price">Rp ${color.price.toLocaleString('id-ID')}</div>
-                        <div class="add-to-cart-icon">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                    </div>
-                `;
-                
-                container.appendChild(colorCard);
-            });
-        }
-
-        // Toggle color selection
-        function toggleColorSelection(color) {
-            const colorCard = document.querySelector(`[data-color-id="${color.id}"]`);
-            const isSelected = colorCard.classList.contains('selected');
-            
-            if (isSelected) {
-                colorCard.classList.remove('selected');
-                selectedHijabColors = selectedHijabColors.filter(c => c.id !== color.id);
-            } else {
-                colorCard.classList.add('selected');
-                selectedHijabColors.push(color);
-            }
-        }
-
-        // Toggle custom color form
-        function toggleCustomColorForm() {
-            const form = document.getElementById('customColorForm');
-            form.style.display = form.style.display === 'block' ? 'none' : 'block';
-        }
-
-        // Add custom color
-        function addCustomColor() {
-            const name = document.getElementById('customColorName').value.trim();
-            const image = document.getElementById('customColorImage').value.trim();
-            const price = document.getElementById('customColorPrice').value || 145000;
-            
-            if (!name || !image) {
-                showToast('Mohon isi nama warna dan link gambar');
-                return;
-            }
-            
-            // Validate URL
-            try {
-                new URL(image);
-            } catch (e) {
-                showToast('Link gambar tidak valid');
-                return;
-            }
-            
-            const customColor = {
-                id: `custom-${Date.now()}`,
-                name: name,
-                image: image,
-                price: parseInt(price),
-                isCustom: true
-            };
-            
-            customColors.push(customColor);
-            renderCustomColors();
-            
-            // Clear form
-            document.getElementById('customColorName').value = '';
-            document.getElementById('customColorImage').value = '';
-            document.getElementById('customColorPrice').value = '';
-            
-            showToast('Warna custom berhasil ditambahkan');
-        }
-
-        // Render custom colors
-        function renderCustomColors() {
-            const container = document.getElementById('customColorsList');
-            container.innerHTML = '';
-            
-            customColors.forEach(color => {
-                const colorItem = document.createElement('div');
-                colorItem.className = 'custom-color-item';
-                colorItem.innerHTML = `
-                    <div class="custom-color-preview" style="background-image: url('${color.image}')"></div>
-                    <div class="custom-color-info">
-                        <div class="custom-color-name">${color.name}</div>
-                        <div class="custom-color-url">Rp ${color.price.toLocaleString('id-ID')}</div>
-                    </div>
-                    <button class="remove-custom-btn" onclick="removeCustomColor('${color.id}')">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                `;
-                container.appendChild(colorItem);
-            });
-        }
-
-        // Remove custom color
-        function removeCustomColor(id) {
-            customColors = customColors.filter(color => color.id !== id);
-            renderCustomColors();
-            showToast('Warna berhasil dihapus');
-        }
 
         // Category change handler
         document.getElementById('productCategory').addEventListener('change', function() {
             const hijabSection = document.getElementById('hijabSection');
             if (this.value === 'hijab') {
                 hijabSection.classList.add('active');
-                initializePredefinedColors();
             } else {
                 hijabSection.classList.remove('active');
-                selectedHijabColors = [];
-                customColors = [];
             }
         });
+
+        // Hijab color change handler
+        document.getElementById('hijabColor').addEventListener('change', function() {
+            const customColorContainer = document.getElementById('customColorContainer');
+            if (this.value === 'custom') {
+                customColorContainer.classList.add('active');
+            } else {
+                customColorContainer.classList.remove('active');
+            }
+        });
+
+        // Add custom color function
+        function addCustomColor() {
+            const colorName = document.getElementById('customColorName').value.trim();
+            const colorImage = document.getElementById('customColorImage').value.trim();
+            
+            if (!colorName || !colorImage) {
+                showToast('Mohon isi nama warna dan link gambar');
+                return;
+            }
+            
+            // Validate URL
+            try {
+                new URL(colorImage);
+            } catch (e) {
+                showToast('Link gambar tidak valid');
+                return;
+            }
+            
+            const colorData = {
+                id: Date.now(),
+                name: colorName,
+                image: colorImage
+            };
+            
+            customColors.push(colorData);
+            renderColorList();
+            
+            // Clear inputs
+            document.getElementById('customColorName').value = '';
+            document.getElementById('customColorImage').value = '';
+            
+            showToast('Warna berhasil ditambahkan');
+        }
+
+        // Render color list
+        function renderColorList() {
+            const colorList = document.getElementById('colorList');
+            colorList.innerHTML = '';
+            
+            customColors.forEach(color => {
+                const colorItem = document.createElement('div');
+                colorItem.className = 'color-item';
+                colorItem.innerHTML = `
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <div class="color-preview" style="background-image: url('${color.image}'); background-size: cover; background-position: center;"></div>
+                        <div class="color-info">
+                            <div class="color-name">${color.name}</div>
+                            <div class="color-image-url">${color.image}</div>
+                        </div>
+                    </div>
+                    <button class="remove-color-btn" onclick="removeColor(${color.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+                colorList.appendChild(colorItem);
+            });
+        }
+
+        // Remove color
+        function removeColor(id) {
+            customColors = customColors.filter(color => color.id !== id);
+            renderColorList();
+            showToast('Warna berhasil dihapus');
+        }
 
         // Toggle recommendations
         function toggleRecommendations() {
@@ -1610,7 +1397,7 @@
                 'mainImage',
                 'orderOnlineEmbed',
                 'storeName',
-                'storeLogo',
+                'whatsappNumber',
                 'colorScheme',
                 'layoutStyle',
                 'targetAudience',
@@ -1645,14 +1432,12 @@
                 productDescription: document.getElementById('productDescription').value,
                 mainImage: document.getElementById('mainImage').value,
                 videoDemo: document.getElementById('videoDemo').value,
-                gifAnimation: document.getElementById('gifAnimation').value,
                 productGallery: document.getElementById('productGallery').value,
                 orderOnlineEmbed: document.getElementById('orderOnlineEmbed').value,
                 storeName: document.getElementById('storeName').value,
-                storeLogo: document.getElementById('storeLogo').value,
+                whatsappNumber: document.getElementById('whatsappNumber').value,
                 colorScheme: document.getElementById('colorScheme').value,
                 layoutStyle: document.getElementById('layoutStyle').value,
-                designReference: document.getElementById('designReference').value,
                 targetAudience: document.getElementById('targetAudience').value,
                 uniqueSellingPoint: document.getElementById('uniqueSellingPoint').value,
                 additionalNotes: document.getElementById('additionalNotes').value
@@ -1660,8 +1445,8 @@
             
             // Add hijab specific data if category is hijab
             if (formData.productCategory === 'hijab') {
+                formData.hijabColor = document.getElementById('hijabColor').value;
                 formData.hijabStyle = document.getElementById('hijabStyle').value;
-                formData.selectedColors = selectedHijabColors;
                 formData.customColors = customColors;
             }
             
@@ -1737,48 +1522,31 @@ ${data.discountPrice ? `- Harga Diskon: Rp ${parseInt(data.discountPrice).toLoca
 - Target Audiens: ${data.targetAudience}
 - USP: ${data.uniqueSellingPoint}
 - Nama Toko: ${data.storeName}
-- Logo Toko: ${data.storeLogo}
+- WhatsApp: ${data.whatsappNumber}
 ${data.additionalNotes ? `- Catatan Tambahan: ${data.additionalNotes}` : ''}
 
 🎨 DESAIN & VISUAL PREMIUM:
 - Skema Warna: ${colorSchemes[data.colorScheme]}
 - Gaya Tata Letak: ${layoutStyles[data.layoutStyle]}
-${data.designReference ? `- Referensi Desain: ${data.designReference}
-  PENTING: Tiru nuansa warna dan tampilan dari website referensi ini untuk menghasilkan desain yang sesuai keinginan user` : ''}
 - Gambar Utama: ${data.mainImage}
 ${data.videoDemo ? `- Video Demo: ${data.videoDemo}` : ''}
-${data.gifAnimation ? `- GIF Animasi: ${data.gifAnimation}` : ''}
 ${data.productGallery ? `- Galeri Produk:\n${data.productGallery.split('\n').map(url => `  • ${url.trim()}`).join('\n')}` : ''}`;
 
             // Add hijab specific section if category is hijab
             if (data.productCategory === 'hijab') {
                 prompt += `\n\n🧕 PENGATURAN KHUSUS HIJAB:`;
+                if (data.hijabColor && data.hijabColor !== 'custom') {
+                    prompt += `\n- Warna Hijab: ${data.hijabColor}`;
+                }
                 if (data.hijabStyle) {
                     prompt += `\n- Style Hijab: ${data.hijabStyle}`;
                 }
-                
-                // Add selected predefined colors
-                if (data.selectedColors && data.selectedColors.length > 0) {
-                    prompt += `\n- Warna Tersedia:`;
-                    data.selectedColors.forEach(color => {
-                        prompt += `\n  • ${color.name}: ${color.image} (Rp ${color.price.toLocaleString('id-ID')})`;
-                    });
-                }
-                
-                // Add custom colors
                 if (data.customColors && data.customColors.length > 0) {
                     prompt += `\n- Warna Custom:`;
                     data.customColors.forEach(color => {
-                        prompt += `\n  • ${color.name}: ${color.image} (Rp ${color.price.toLocaleString('id-ID')})`;
+                        prompt += `\n  • ${color.name}: ${color.image}`;
                     });
                 }
-                
-                prompt += `\n\nIMPORTAN untuk tampilan warna hijab:
-- Buat grid warna yang menarik seperti website hijab modern
-- Setiap warna tampilkan dengan foto produk yang sesuai
-- Hover effect untuk preview detail
-- Sistem pemilihan warna yang interaktif
-- Mobile responsive dengan swiper/carousel`;
             }
 
             prompt += `\n\n🛒 ORDERONLINE INTEGRATION PREMIUM:
@@ -1832,9 +1600,7 @@ Produk Rekomendasi:`;
    - 360° view atau multiple angles
    - Zoom on hover functionality
    - Video demo terintegrasi
-   ${data.gifAnimation ? `- GIF animasi produk terintegrasi` : ''}
    - Quick features highlight
-   ${data.productCategory === 'hijab' ? `- Section "Pilihan Warna" yang menarik dengan grid layout` : ''}
 
 3. BENEFITS & FEATURES
    - Icon-based feature grid
@@ -1858,10 +1624,9 @@ Produk Rekomendasi:`;
 
 6. ORDER FORM PREMIUM
    - OrderOnline form dengan custom styling
-   - Logo toko di bagian atas form
    - Progress indicator
    - Form validation real-time
-   - WhatsApp quick order button (optional)
+   - WhatsApp quick order button
    - Security badges
 
 ${data.recommendations ? `7. PRODUCT RECOMMENDATIONS
@@ -1944,19 +1709,9 @@ FINAL INSTRUCTION:
 Buatkan landing page dengan kode HTML, CSS, dan JavaScript yang:
 1. Production-ready dan bug-free
 2. Pixel-perfect sesuai spesifikasi desain
-3. ${data.designReference ? `WAJIB meniru nuansa dan style dari website referensi yang diberikan` : 'Mengikuti design system yang dipilih'}
-4. Performance score 90+ di Google PageSpeed
-5. Conversion rate optimization best practices
-6. Siap deploy tanpa perlu editing
-7. Mobile responsive sempurna
-
-${data.productCategory === 'hijab' ? `
-KHUSUS UNTUK PRODUK HIJAB:
-- Section pilihan warna HARUS seperti contoh website hijab modern
-- Grid layout 4 kolom di desktop, 2 kolom di mobile
-- Setiap warna punya card sendiri dengan foto produk
-- Sistem pemilihan warna yang user-friendly
-- Integrasi dengan form pemesanan` : ''}
+3. Performance score 90+ di Google PageSpeed
+4. Conversion rate optimization best practices
+5. Siap deploy tanpa perlu editing
 
 Hasilkan kode lengkap yang bisa langsung di-copy dan digunakan! 🚀`;
 
@@ -2065,7 +1820,6 @@ Hasilkan kode lengkap yang bisa langsung di-copy dan digunakan! 🚀`;
                 targetAudience: document.getElementById('targetAudience').value,
                 uniqueSellingPoint: document.getElementById('uniqueSellingPoint').value,
                 additionalNotes: document.getElementById('additionalNotes').value,
-                selectedHijabColors: selectedHijabColors,
                 customColors: customColors
             };
             
@@ -2082,30 +1836,20 @@ Hasilkan kode lengkap yang bisa langsung di-copy dan digunakan! 🚀`;
                     // Restore form values
                     Object.keys(formData).forEach(key => {
                         const element = document.getElementById(key);
-                        if (element && key !== 'selectedHijabColors' && key !== 'customColors') {
+                        if (element && key !== 'customColors') {
                             element.value = formData[key];
                         }
                     });
                     
-                    // Restore hijab colors if category is hijab
+                    // Restore custom colors
+                    if (formData.customColors) {
+                        customColors = formData.customColors;
+                        renderColorList();
+                    }
+                    
+                    // Trigger category change to show hijab section if needed
                     if (formData.productCategory === 'hijab') {
                         document.getElementById('hijabSection').classList.add('active');
-                        initializePredefinedColors();
-                        
-                        // Restore selected colors
-                        if (formData.selectedHijabColors) {
-                            selectedHijabColors = formData.selectedHijabColors;
-                            selectedHijabColors.forEach(color => {
-                                const card = document.querySelector(`[data-color-id="${color.id}"]`);
-                                if (card) card.classList.add('selected');
-                            });
-                        }
-                        
-                        // Restore custom colors
-                        if (formData.customColors) {
-                            customColors = formData.customColors;
-                            renderCustomColors();
-                        }
                     }
                     
                 } catch (e) {
