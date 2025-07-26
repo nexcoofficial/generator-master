@@ -581,13 +581,16 @@
             margin-bottom: 2rem;
         }
 
-        .copy-button {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .copy-button, .deepsite-button {
             padding: 0.75rem 1.5rem;
-            background: var(--accent);
-            color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -595,6 +598,13 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .copy-button {
+            background: var(--accent);
+            color: white;
         }
 
         .copy-button:hover {
@@ -603,6 +613,18 @@
 
         .copy-button.copied {
             background: var(--success);
+        }
+
+        .deepsite-button {
+            background: var(--gradient-gold);
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        .deepsite-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(201,169,110,0.3);
         }
 
         .prompt-content {
@@ -650,6 +672,7 @@
             .glass-card { padding: 1.5rem; }
             input, select, textarea { padding: 0.875rem 0.875rem 0.875rem 2.5rem; }
             .font-selection { grid-template-columns: 1fr; }
+            .action-buttons { flex-direction: column; align-items: center; }
         }
 
         /* Toast Notification */
@@ -1138,14 +1161,21 @@
             <div class="result-header">
                 <i class="fas fa-check-circle success-icon"></i>
                 <h2>Prompt Berhasil Dihasilkan!</h2>
-                <p style="color: var(--gray);">Copy prompt di bawah dan paste ke Claude, ChatGPT, atau AI builder favorit Anda</p>
+                <p style="color: var(--gray);">Copy prompt di bawah atau langsung buka di Deepsite untuk membuat landing page</p>
             </div>
             
-            <div class="prompt-output">
+            <div class="action-buttons">
                 <button class="copy-button" onclick="copyToClipboard()">
                     <i class="far fa-copy"></i>
                     <span>Copy Prompt</span>
                 </button>
+                <button class="deepsite-button" onclick="redirectToDeepsite()">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>Buka di Deepsite</span>
+                </button>
+            </div>
+            
+            <div class="prompt-output">
                 <div class="prompt-content" id="promptContent"></div>
             </div>
         </div>
@@ -1171,6 +1201,7 @@
     <script>
         // Global variables
         let testimoniCount = 0;
+        let generatedPrompt = '';
 
         // Font selection
         document.addEventListener('DOMContentLoaded', function() {
@@ -1296,128 +1327,6 @@
             const allTestimoni = [];
             for (let i = 1; i <= testimoniCount; i++) {
                 if (i !== index) {
-                    const testimoni = {
-                        name: document.getElementById(`testimoni${i}Name`)?.value || '',
-                        rating: document.getElementById(`testimoni${i}Rating`)?.value || '5',
-                        avatar: document.getElementById(`testimoni${i}Avatar`)?.value || '',
-                        media: document.getElementById(`testimoni${i}Media`)?.value || '',
-                        text: document.getElementById(`testimoni${i}Text`)?.value || ''
-                    };
-                    allTestimoni.push(testimoni);
-                }
-            }
-            
-            testimoniCount--;
-            generateTestimoniFields();
-            
-            // Restore data
-            allTestimoni.forEach((testimoni, index) => {
-                const num = index + 1;
-                if (document.getElementById(`testimoni${num}Name`)) {
-                    document.getElementById(`testimoni${num}Name`).value = testimoni.name;
-                    document.getElementById(`testimoni${num}Rating`).value = testimoni.rating;
-                    document.getElementById(`testimoni${num}Avatar`).value = testimoni.avatar;
-                    document.getElementById(`testimoni${num}Media`).value = testimoni.media;
-                    document.getElementById(`testimoni${num}Text`).value = testimoni.text;
-                }
-            });
-            
-            showToast('Testimoni berhasil dihapus');
-        }
-
-        // Social proof preview
-        function showSocialProofPreview() {
-            const preview = document.getElementById('socialProofPreview');
-            const names = document.getElementById('customerNames').value.split(',');
-            const cities = document.getElementById('customerCities').value.split(',');
-            const productName = document.getElementById('productName').value || 'produk ini';
-            
-            const randomName = names[Math.floor(Math.random() * names.length)].trim();
-            const randomCity = cities[Math.floor(Math.random() * cities.length)].trim();
-            
-            preview.querySelector('.social-proof-avatar').textContent = randomName.charAt(0).toUpperCase();
-            preview.querySelector('.social-proof-name').textContent = `${randomName} dari ${randomCity}`;
-            preview.querySelector('.social-proof-message').textContent = `baru saja memesan ${productName}`;
-            
-            preview.classList.add('show');
-            
-            setTimeout(() => {
-                preview.classList.remove('show');
-            }, 5000);
-        }
-
-        // Form validation
-        function validateForm() {
-            const required = [
-                'productName', 'productCategory', 'originalPrice', 'productDescription',
-                'mainImage', 'orderOnlineEmbed', 'storeName', 'whatsappNumber',
-                'colorScheme', 'layoutStyle', 'targetAudience', 'uniqueSellingPoint'
-            ];
-            
-            for (let field of required) {
-                const element = document.getElementById(field);
-                if (!element.value.trim()) {
-                    element.focus();
-                    showToast('Mohon lengkapi semua field yang wajib diisi');
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        // Generate prompt
-        function generatePrompt() {
-            if (!validateForm()) return;
-            
-            // Show loading
-            document.getElementById('loadingState').classList.add('active');
-            
-            // Collect form data
-            const formData = collectFormData();
-            
-            // Generate the prompt
-            const prompt = generatePromptText(formData);
-            
-            // Simulate processing delay
-            setTimeout(() => {
-                document.getElementById('loadingState').classList.remove('active');
-                document.getElementById('promptContent').textContent = prompt;
-                document.getElementById('resultSection').classList.add('active');
-                
-                // Scroll to result
-                document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
-                
-                showToast('Prompt berhasil dihasilkan!');
-            }, 2000);
-        }
-
-        function collectFormData() {
-            const data = {
-                productName: document.getElementById('productName').value,
-                productCategory: document.getElementById('productCategory').value,
-                originalPrice: document.getElementById('originalPrice').value,
-                discountPrice: document.getElementById('discountPrice').value,
-                productDescription: document.getElementById('productDescription').value,
-                headingFont: document.getElementById('selectedHeadingFont').value,
-                bodyFont: document.getElementById('selectedBodyFont').value,
-                mainImage: document.getElementById('mainImage').value,
-                videoDemo: document.getElementById('videoDemo').value,
-                productGallery: document.getElementById('productGallery').value,
-                orderOnlineEmbed: document.getElementById('orderOnlineEmbed').value,
-                storeName: document.getElementById('storeName').value,
-                whatsappNumber: document.getElementById('whatsappNumber').value,
-                colorScheme: document.getElementById('colorScheme').value,
-                layoutStyle: document.getElementById('layoutStyle').value,
-                targetAudience: document.getElementById('targetAudience').value,
-                uniqueSellingPoint: document.getElementById('uniqueSellingPoint').value,
-                additionalNotes: document.getElementById('additionalNotes').value
-            };
-            
-            // Add testimoni data
-            const testimoniToggle = document.getElementById('testimoniToggle');
-            if (testimoniToggle.classList.contains('active')) {
-                data.testimoni = [];
-                for (let i = 1; i <= testimoniCount; i++) {
                     const testimoni = {
                         name: document.getElementById(`testimoni${i}Name`)?.value || '',
                         rating: document.getElementById(`testimoni${i}Rating`)?.value || '5',
@@ -1862,4 +1771,149 @@ Hasilkan kode lengkap yang bisa langsung di-copy dan digunakan! 🚀`;
         document.head.appendChild(style);
     </script>
 </body>
-</html>
+</html> || ''
+                    };
+                    allTestimoni.push(testimoni);
+                }
+            }
+            
+            testimoniCount--;
+            generateTestimoniFields();
+            
+            // Restore data
+            allTestimoni.forEach((testimoni, index) => {
+                const num = index + 1;
+                if (document.getElementById(`testimoni${num}Name`)) {
+                    document.getElementById(`testimoni${num}Name`).value = testimoni.name;
+                    document.getElementById(`testimoni${num}Rating`).value = testimoni.rating;
+                    document.getElementById(`testimoni${num}Avatar`).value = testimoni.avatar;
+                    document.getElementById(`testimoni${num}Media`).value = testimoni.media;
+                    document.getElementById(`testimoni${num}Text`).value = testimoni.text;
+                }
+            });
+            
+            showToast('Testimoni berhasil dihapus');
+        }
+
+        // Social proof preview
+        function showSocialProofPreview() {
+            const preview = document.getElementById('socialProofPreview');
+            const names = document.getElementById('customerNames').value.split(',');
+            const cities = document.getElementById('customerCities').value.split(',');
+            const productName = document.getElementById('productName').value || 'produk ini';
+            
+            const randomName = names[Math.floor(Math.random() * names.length)].trim();
+            const randomCity = cities[Math.floor(Math.random() * cities.length)].trim();
+            
+            preview.querySelector('.social-proof-avatar').textContent = randomName.charAt(0).toUpperCase();
+            preview.querySelector('.social-proof-name').textContent = `${randomName} dari ${randomCity}`;
+            preview.querySelector('.social-proof-message').textContent = `baru saja memesan ${productName}`;
+            
+            preview.classList.add('show');
+            
+            setTimeout(() => {
+                preview.classList.remove('show');
+            }, 5000);
+        }
+
+        // Redirect to Deepsite function
+        function redirectToDeepsite() {
+            if (!generatedPrompt) {
+                showToast('Tidak ada prompt yang tersedia. Silakan generate prompt terlebih dahulu.');
+                return;
+            }
+            
+            const encodedPrompt = encodeURIComponent(generatedPrompt);
+            const deepsiteURL = `https://enzostvs-deepsite.hf.space/projects/new?prompt=${encodedPrompt}`;
+            
+            // Open in new tab
+            window.open(deepsiteURL, "_blank");
+            showToast('Membuka Deepsite di tab baru...');
+        }
+
+        // Form validation
+        function validateForm() {
+            const required = [
+                'productName', 'productCategory', 'originalPrice', 'productDescription',
+                'mainImage', 'orderOnlineEmbed', 'storeName', 'whatsappNumber',
+                'colorScheme', 'layoutStyle', 'targetAudience', 'uniqueSellingPoint'
+            ];
+            
+            for (let field of required) {
+                const element = document.getElementById(field);
+                if (!element.value.trim()) {
+                    element.focus();
+                    showToast('Mohon lengkapi semua field yang wajib diisi');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Generate prompt
+        function generatePrompt() {
+            if (!validateForm()) return;
+            
+            // Show loading
+            document.getElementById('loadingState').classList.add('active');
+            
+            // Collect form data
+            const formData = collectFormData();
+            
+            // Generate the prompt
+            const prompt = generatePromptText(formData);
+            
+            // Store the generated prompt
+            generatedPrompt = prompt;
+            
+            // Simulate processing delay
+            setTimeout(() => {
+                document.getElementById('loadingState').classList.remove('active');
+                document.getElementById('promptContent').textContent = prompt;
+                document.getElementById('resultSection').classList.add('active');
+                
+                // Scroll to result
+                document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
+                
+                showToast('Prompt berhasil dihasilkan!');
+                
+                // Auto redirect to Deepsite after 2 seconds
+                setTimeout(() => {
+                    redirectToDeepsite();
+                }, 2000);
+            }, 2000);
+        }
+
+        function collectFormData() {
+            const data = {
+                productName: document.getElementById('productName').value,
+                productCategory: document.getElementById('productCategory').value,
+                originalPrice: document.getElementById('originalPrice').value,
+                discountPrice: document.getElementById('discountPrice').value,
+                productDescription: document.getElementById('productDescription').value,
+                headingFont: document.getElementById('selectedHeadingFont').value,
+                bodyFont: document.getElementById('selectedBodyFont').value,
+                mainImage: document.getElementById('mainImage').value,
+                videoDemo: document.getElementById('videoDemo').value,
+                productGallery: document.getElementById('productGallery').value,
+                orderOnlineEmbed: document.getElementById('orderOnlineEmbed').value,
+                storeName: document.getElementById('storeName').value,
+                whatsappNumber: document.getElementById('whatsappNumber').value,
+                colorScheme: document.getElementById('colorScheme').value,
+                layoutStyle: document.getElementById('layoutStyle').value,
+                targetAudience: document.getElementById('targetAudience').value,
+                uniqueSellingPoint: document.getElementById('uniqueSellingPoint').value,
+                additionalNotes: document.getElementById('additionalNotes').value
+            };
+            
+            // Add testimoni data
+            const testimoniToggle = document.getElementById('testimoniToggle');
+            if (testimoniToggle.classList.contains('active')) {
+                data.testimoni = [];
+                for (let i = 1; i <= testimoniCount; i++) {
+                    const testimoni = {
+                        name: document.getElementById(`testimoni${i}Name`)?.value || '',
+                        rating: document.getElementById(`testimoni${i}Rating`)?.value || '5',
+                        avatar: document.getElementById(`testimoni${i}Avatar`)?.value || '',
+                        media: document.getElementById(`testimoni${i}Media`)?.value || '',
+                        text: document.getElementById(`testimoni${i}Text`)?.value
